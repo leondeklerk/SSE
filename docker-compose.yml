@@ -1,0 +1,43 @@
+services:
+  web:
+    image: ghcr.io/remast/gobuff_realworld_example_app/app:latest
+    container_name: web
+    hostname: web
+    networks:
+      demo_network:
+        aliases:
+          - web
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - db
+    environment:
+      - "WAIT_HOSTS=db:5432"
+      - "DATABASE_HOST=db"
+
+  db:
+    image: postgres:latest
+    container_name: db
+    hostname: db
+    networks:
+      demo_network:
+    environment:
+      - "POSTGRES_DB=gobuff_realworld_example_app_development"
+      - "POSTGRES_PASSWORD=postgres"
+      - "POSTGRES_USER=postgres"
+    ports: 
+      - "5432:5432"
+  nginx-proxy:
+    image: nginx
+    container_name: nginx-proxy
+    restart: always
+    networks:
+      - demo_network
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
+networks:
+  demo_network:
+    name: demo_network
