@@ -7,13 +7,14 @@ services:
       demo_network:
         aliases:
           - web
+          - 192.168.0.2
     ports:
       - "3000:3000"
     depends_on: 
       - db
     environment:
-      - "WAIT_HOSTS=db:5432"
-      - "DATABASE_HOST=db"
+      - "WAIT_HOSTS=192.168.0.3:5432"
+      - "DATABASE_HOST=192.168.0.3"
 
   db:
     image: postgres:latest
@@ -21,6 +22,9 @@ services:
     hostname: db
     networks:
       demo_network:
+        aliases:
+          - db
+          - 192.168.0.3
     environment:
       - "POSTGRES_DB=gobuff_realworld_example_app_development"
       - "POSTGRES_PASSWORD=postgres"
@@ -41,3 +45,9 @@ services:
 networks:
   demo_network:
     name: demo_network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.0.0/24"
+          gateway: "192.168.0.1"
