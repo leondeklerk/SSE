@@ -21,6 +21,7 @@ class SeleniumTests(unittest.TestCase):
     def setUp(self):
         # sets up webdriver, Chrome() can be replaced with any other common web brobwser
         co = Options()
+        co.add_argument('--no-sandbox')
         co.add_argument('--headless')
         self.driver = webdriver.Chrome(options=co)
 
