@@ -1,8 +1,10 @@
-from plumbum.cmd import nerdctl, docker_compose, powertop, grep, systemctl, podman_compose
+from plumbum.cmd import nerdctl, docker_compose, powertop, grep, systemctl, podman_compose, python, sudo
 import numpy as np
 from pprint import pprint
+import threading
 
-RUNS=10
+RUNS=1
+TIME=20
 
 def parse_powertop_csv():
     watts = float(grep("discharge", "powertop.csv").split("  ")[1])
@@ -10,7 +12,9 @@ def parse_powertop_csv():
     return watts, jouls
 
 def get_power_data():
-    powertop("-C", "-t", "5")
+    t = threading.Thread(target=lambda: python("tests.py"), args=(), daemon=True)
+    t.start()
+    sudo("powertop", "-C", "-t", "20")
     return parse_powertop_csv()
 
 
@@ -27,8 +31,6 @@ def run_podman():
     data = get_power_data()
     podman_compose("down")
     return data
-
-
 
 
 def run_containerd():

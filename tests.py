@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.chrome.options import Options
 
 class SeleniumTests(unittest.TestCase):
     # login variables used in tests
@@ -11,7 +11,7 @@ class SeleniumTests(unittest.TestCase):
     email = "luiscruz@gmail.com"
     password = "Sustainable Software Engineering is the best"
     # webpages used in tests
-    main_page = "http://localhost/"
+    main_page = "http://localhost:3000/"
     signup_page = main_page + "users/register/"
     login_page = main_page + "auth/login/"
     account_page = main_page + "users/profile/" + email + "/"
@@ -19,8 +19,10 @@ class SeleniumTests(unittest.TestCase):
     published_page = main_page + "articles/question-regarding-sustainable-software-engineering/"
 
     def setUp(self):
-        # sets up webdriver, Chrome() can be replaced with any other common web browser
-        self.driver = webdriver.Chrome()
+        # sets up webdriver, Chrome() can be replaced with any other common web brobwser
+        co = Options()
+        co.add_argument('--headless')
+        self.driver = webdriver.Chrome(options=co)
 
     def test_h_publish_article(self):
         # connect and login
@@ -126,6 +128,9 @@ class SeleniumTests(unittest.TestCase):
         self.driver.close()
 
 
+def start():
+    unittest.main()
+    
 if __name__ == '__main__':
     # run selenium tests
     unittest.main()
