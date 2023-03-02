@@ -1,7 +1,7 @@
-from plumbum.cmd import nerdctl, docker_compose, powertop, grep, systemctl, podman_compose, python, sudo
+from plumbum.cmd import nerdctl, docker_compose, powertop, grep, systemctl, podman_compose, python, sudo, sh
 import numpy as np
 from pprint import pprint
-import threading
+import multiprocessing
 
 RUNS=10
 TIME=20
@@ -12,7 +12,7 @@ def parse_powertop_csv():
     return watts, jouls
 
 def get_power_data():
-    t = threading.Thread(target=lambda: python("tests.py"), args=(), daemon=True)
+    t = multiprocessing.Process(target=lambda: python("tests.py"), args=())
     t.start()
     sudo("powertop", "-C", "-t", "20")
     return parse_powertop_csv()
@@ -32,6 +32,12 @@ def run_podman():
     podman_compose("down")
     return data
 
+def run_lxc():
+    t = multiprocessing.Process(target=lambda: sh("setup_environment.sh"), args=())
+    t.start()
+    data = get_power_data()
+    t.terminate()
+    return data
 
 def run_containerd():
     nerdctl("compose", "-f", "docker-compose.yml", "up", "-d")
@@ -48,7 +54,7 @@ def get_means(data):
 def run():
     results = {}
     for name, f in [("baseline", get_power_data), ("docker", run_docker), ("containerd", run_containerd),
-                    ("podman", run_podman)]:
+                    ("podman", run_podman), ("lxc", run_lxc)]:
         results[name] = []
         print(f"=======\n{name}\n=======")
         if name != "baseline":
@@ -67,5 +73,3 @@ def run():
         
 if __name__ == "__main__":
     run()
-
-    
