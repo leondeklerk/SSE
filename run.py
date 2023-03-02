@@ -1,9 +1,10 @@
-from plumbum.cmd import nerdctl, docker_compose, powertop, grep, systemctl, podman_compose
+from plumbum.cmd import nerdctl, docker_compose, powertop, grep, systemctl, podman_compose, python, sudo
 import numpy as np
 from pprint import pprint
+import threading
 
 RUNS=10
-TIME=30
+TIME=20
 
 def parse_powertop_csv():
     watts = float(grep("discharge", "powertop.csv").split("  ")[1])
@@ -11,7 +12,9 @@ def parse_powertop_csv():
     return watts, jouls
 
 def get_power_data():
-    powertop("-C", "-t", f"{TIME}")
+    t = threading.Thread(target=lambda: python("tests.py"), args=(), daemon=True)
+    t.start()
+    sudo("powertop", "-C", "-t", "20")
     return parse_powertop_csv()
 
 
@@ -30,8 +33,6 @@ def run_podman():
     return data
 
 
-
-
 def run_containerd():
     nerdctl("compose", "-f", "docker-compose.yml", "up", "-d")
     data = get_power_data()
@@ -48,8 +49,6 @@ def run():
     results = {}
     for name, f in [("baseline", get_power_data), ("docker", run_docker), ("containerd", run_containerd),
                     ("podman", run_podman)]:
-        if name != "podman": continue
-        
         results[name] = []
         print(f"=======\n{name}\n=======")
         if name != "baseline":
