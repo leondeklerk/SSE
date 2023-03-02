@@ -39,7 +39,7 @@ def run_podman():
 def run_lxc():
     t = multiprocessing.Process(target=lambda: sh("setup_environment.sh"), args=())
     t.start()
-    time.sleep(5)
+    time.sleep(30)
     data = get_power_data(True)
     t.terminate()
     sudo("lxc", "stop", "demo")

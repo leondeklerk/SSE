@@ -11,7 +11,7 @@ class SeleniumTests(unittest.TestCase):
     email = "luiscruz@gmail.com"
     password = "Sustainable Software Engineering is the best"
     # webpages used in tests
-    main_page = "http://localhost:3000/"
+    main_page = "http://localhost/"
     signup_page = main_page + "users/register/"
     login_page = main_page + "auth/login/"
     account_page = main_page + "users/profile/" + email + "/"
