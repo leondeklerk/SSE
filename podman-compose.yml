@@ -4,16 +4,16 @@ services:
     container_name: web
     hostname: web
     network_mode: host
-    #ports:
-    #  - "3000:3000"
+    ports:
+      - "3000:3000"
     depends_on: 
       - db
     environment:
-      - "WAIT_HOSTS=127.0.0.1:5432"
-      - "DATABASE_HOST=127.0.0.1"
+      - "WAIT_HOSTS=db:5432"
+      - "DATABASE_HOST=db"
 
   db:
-    image: postgres:latest
+    image: docker.io/postgres:latest
     container_name: db
     hostname: db
     network_mode: host
@@ -21,14 +21,14 @@ services:
       - "POSTGRES_DB=gobuff_realworld_example_app_development"
       - "POSTGRES_PASSWORD=postgres"
       - "POSTGRES_USER=postgres"
-    #ports: 
-    #  - "5432:5432"
+    ports: 
+      - "5432:5432"
   proxy:
-    image: nginx
+    image: docker.io/nginx:latest
     container_name: proxy
     restart: always
     network_mode: host
-    #ports:
-    #  - "80:80"
+    ports:
+      - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./podman_nginx.conf:/etc/nginx/nginx.conf

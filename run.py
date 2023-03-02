@@ -30,10 +30,10 @@ def run_docker():
 
 def run_podman():
     podman_compose("build")
-    podman_compose("up", "-d")
+    podman_compose("-f", "podman-compose.yml", "up", "-d"),
     time.sleep(5)  
     data = get_power_data(True)
-    podman_compose("down")
+    podman_compose("-f", "podman-compose.yml", "down")
     return data
 
 def run_lxc():
@@ -61,7 +61,7 @@ def get_means(data):
 
 def run():
     results = {}
-    for name, f in [("docker", run_docker), ("containerd", run_containerd),
+    for name, f in [("baseline", get_power_data), ("docker", run_docker), ("containerd", run_containerd),
                     ("podman", run_podman), ("lxc", run_lxc)]:
         results[name] = []
         print(f"=======\n{name}\n=======")
