@@ -24,4 +24,5 @@ Setup: `sudo lxc image copy images:alpine/edge local: --alias alpine`
 
 ### Run
 
+Make sure all services are disabled before running: `systemctl stop` + `docker`/`podman`/`containerd` and `snap stop lxd.daemon`
 From the folder run `sudo python3 run.py`
