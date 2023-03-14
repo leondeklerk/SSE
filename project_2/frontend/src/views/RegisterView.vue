@@ -1,15 +1,19 @@
 <template>
 	<div class="columns is-vcentered is-centered h-100">
 		<div class="column is-one-third">
-			<card-component title="Login" :buttons="cardButtons" @button-click="onClick">
+			<card-component title="Register" :buttons="cardButtons" @button-click="onClick">
 				<InputComponent v-model="username">
 					<template #name> Username </template>
 					<template #icon>
 						<i class="fas fa-envelope"></i>
 					</template>
 				</InputComponent>
-				<InputComponent type="password" v-model="password">
+				<InputComponent :valid="passwordsMatch" type="password" v-model="password">
 					<template #name>Password</template>
+					<template #icon><i class="fas fa-lock"></i></template>
+				</InputComponent>
+				<InputComponent :valid="passwordsMatch" :error-message="passwordError" type="password" v-model="passwordConfirm">
+					<template #name>Confirm password</template>
 					<template #icon><i class="fas fa-lock"></i></template>
 				</InputComponent>
 			</card-component>
@@ -20,25 +24,32 @@
 <script setup lang="ts">
 import InputComponent from "../components/InputComponent.vue";
 import CardComponent, { type CardButton } from "@/components/CardComponent.vue";
-import { ref, type Ref } from "vue";
+import { computed, ref, type Ref } from "vue";
 import { useRouter } from "vue-router";
 
 const username = ref("");
 const password = ref("");
+const passwordConfirm = ref("");
 const router = useRouter();
 
 const cardButtons: Ref<CardButton[]> = ref([
 	{
 		class: "is-primary is-outlined",
-		text: "Register",
-		name: "register",
-	},
-	{
-		class: "is-primary",
 		text: "Login",
 		name: "login",
 	},
+	{
+		class: "is-primary",
+		text: "Register",
+		name: "register",
+	},
 ]);
+
+const passwordsMatch = computed(() => {
+	return password.value === passwordConfirm.value;
+});
+
+const passwordError = "Passwords must match";
 
 function onClick(buttonName: string) {
 	switch (buttonName) {
@@ -55,10 +66,10 @@ function onClick(buttonName: string) {
 }
 
 function register() {
-	router.push({ name: "register" });
+	router.push("/login");
 }
 
 function login() {
-	router.push("/");
+	router.push("/login");
 }
 </script>
