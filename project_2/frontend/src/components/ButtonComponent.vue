@@ -1,5 +1,5 @@
 <template>
-	<div class="control pl-2 pr-2">
+	<div class="control" :class="{ 'pl-2 pr-2': controlPadding }">
 		<button @click="emit('click', $event)" class="button is-uppercase has-text-weight-normal" :class="classes">
 			<slot />
 		</button>
@@ -18,6 +18,7 @@ interface Props {
 	light?: boolean;
 	size?: string;
 	parentWidth?: boolean;
+	controlPadding?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -28,6 +29,7 @@ const props = withDefaults(defineProps<Props>(), {
 	size: "default",
 	outlined: false,
 	parentWidth: false,
+	controlPadding: true,
 });
 
 const emit = defineEmits<{
@@ -59,8 +61,6 @@ const classes = computed(() => {
 	classArray.push(`pr-${props.padding}`);
 	classArray.push(`pl-${props.padding}`);
 	classArray.push(`is-size-${props.size}`);
-
-	console.log(classArray.join(" "));
 
 	return classArray.join(" ");
 });

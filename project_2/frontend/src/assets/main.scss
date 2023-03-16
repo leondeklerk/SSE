@@ -1,6 +1,22 @@
 @charset "utf-8";
 @import "./_variables";
 @import "bulma/bulma";
+@import "vue-final-modal/style.css";
+
+// /*
+// *  $gap: 32px !default
+// 	// // 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
+// 	// $tablet: 769px !default
+// 	// // 960px container + 4rem
+// 	// $desktop: 960px + (2 * $gap) !default
+// 	// // 1152px container + 4rem
+// 	// $widescreen: 1152px + (2 * $gap) !default
+// 	// $widescreen-enabled: true !default
+// 	// // 1344px container + 4rem
+// 	// $fullhd: 1344px + (2 * $gap) !default
+// 	// $fullhd-enabled: true !default
+// 	// $breakpoints: ("mobile": ("until": $tablet), "tablet": ("from": $tablet), "tablet-only": ("from": $tablet, "until": $desktop), "touch": ("from": $desktop), "desktop": ("from": $desktop), "desktop-only": ("from": $desktop, "until": $widescreen), "until-widescreen": ("until": $widescreen), "widescreen": ("from": $widescreen), "widescreen-only": ("from": $widescreen, "until": $fullhd), "until-fullhd": ("until": $fullhd), "fullhd": ("from": $fullhd)) !default
+// */
 
 .is-screen-height {
 	height: 100vh;
@@ -27,6 +43,16 @@
 
 .has-left-border {
 	border-left: solid 1px $primary;
+}
+
+.has-outline {
+	border: solid 1px $grey-lighter;
+	border-radius: $radius;
+}
+
+.has-max-height {
+	max-height: 10vh;
+	overflow-y: scroll;
 }
 
 .fade-enter-active,
