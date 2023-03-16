@@ -1,15 +1,32 @@
 import RegisterView from "@/views/RegisterView.vue";
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
+import ProjectView from "@/views/ProjectView.vue";
+import NavBar from "@/components/NavBar.vue";
+import IndexView from "@/views/IndexView.vue";
+
+declare module "vue-router" {
+	interface RouteMeta {}
+}
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
 		{
 			path: "/",
-			name: "home",
-			component: HomeView,
+			name: "index",
+			components: {
+				default: IndexView,
+				NavBar: NavBar,
+			},
+		},
+		{
+			path: "/project/:id",
+			name: "project",
+			components: {
+				default: ProjectView,
+				NavBar: NavBar,
+			},
 		},
 		{
 			path: "/login",

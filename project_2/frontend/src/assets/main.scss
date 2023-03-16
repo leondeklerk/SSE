@@ -9,3 +9,25 @@
 .h-100 {
 	height: 100%;
 }
+
+.h-fit-parent {
+	height: auto;
+}
+
+.is-circular {
+	border-radius: 50%;
+}
+
+.has-left-border {
+	border-left: solid 1px $primary;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
