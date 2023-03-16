@@ -85,7 +85,7 @@ async function register() {
 		passwordConfirm: passwordConfirm.value,
 	};
 
-	const { success } = await post<UserRegisterResponse>("auth/register/", JSON.stringify(body), false);
+	const { success } = await post<UserRegisterResponse>("/auth/register/", JSON.stringify(body), false);
 	// TODO: show toast based on result/error
 	if (success) {
 		router.push("/login");
