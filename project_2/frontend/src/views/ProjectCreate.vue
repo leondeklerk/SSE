@@ -4,7 +4,7 @@
 		<template #default>
 			<div class="columns is-centered">
 				<div class="column is-half">
-					<input-component v-model="projectName" :no-icon="true">
+					<input-component v-model="projectName" :has-icon="false">
 						<template #name> Project name </template>
 					</input-component>
 					<multiselect-component :on-entry-add="onEntryAdd" v-model="selectedCompanies" :list="companyOptions">

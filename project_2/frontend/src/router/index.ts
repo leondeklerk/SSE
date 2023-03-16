@@ -5,9 +5,12 @@ import ProjectView from "@/views/ProjectView.vue";
 import NavBar from "@/components/NavBar.vue";
 import IndexView from "@/views/IndexView.vue";
 import ProjectCreate from "@/views/ProjectCreate.vue";
+import { useAuthStore } from "@/stores/auth";
 
 declare module "vue-router" {
-	interface RouteMeta {}
+	interface RouteMeta {
+		requiresAuth: boolean;
+	}
 }
 
 const router = createRouter({
@@ -20,6 +23,9 @@ const router = createRouter({
 				default: IndexView,
 				NavBar: NavBar,
 			},
+			meta: {
+				requiresAuth: true,
+			},
 		},
 		{
 			path: "/project/:id",
@@ -27,6 +33,9 @@ const router = createRouter({
 			components: {
 				default: ProjectView,
 				NavBar: NavBar,
+			},
+			meta: {
+				requiresAuth: true,
 			},
 		},
 		{
@@ -36,18 +45,38 @@ const router = createRouter({
 				default: ProjectCreate,
 				NavBar: NavBar,
 			},
+			meta: {
+				requiresAuth: true,
+			},
 		},
 		{
 			path: "/login",
 			name: "login",
 			component: LoginView,
+			meta: {
+				requiresAuth: false,
+			},
 		},
 		{
 			path: "/register",
 			name: "register",
 			component: RegisterView,
+			meta: {
+				requiresAuth: false,
+			},
 		},
 	],
+});
+
+router.beforeEach((to) => {
+	if (to.meta.requiresAuth) {
+		const store = useAuthStore();
+		if (store.accessToken) {
+			return true;
+		} else {
+			return { name: "login" };
+		}
+	}
 });
 
 export default router;

@@ -6,7 +6,14 @@
 		<div class="is-flex-grow-1 is-flex-shrink-1">
 			<RouterView v-slot="{ Component }">
 				<!-- <Transition name="fade"> -->
-				<component :is="Component" />
+				<Suspense>
+					<template #default>
+						<div class="is-parent-height">
+							<component :is="Component" />
+						</div>
+					</template>
+					<template #fallback> Loading... </template>
+				</Suspense>
 				<!-- </Transition> -->
 			</RouterView>
 		</div>

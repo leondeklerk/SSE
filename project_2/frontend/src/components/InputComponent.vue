@@ -1,16 +1,13 @@
 <template>
 	<div class="field">
-		<div class="control" :class="{ 'has-icons-left': !noIcon, 'has-icons-right': errorMessage }">
+		<div class="control" :class="{ 'has-icons-left': hasIcon }">
 			<label class="label">
 				<slot name="name"></slot>
 			</label>
 			<div class="control">
 				<input class="input" :type="type" v-model="value" :placeholder="placeholder" />
-				<span v-if="!noIcon" class="icon is-small is-left">
+				<span v-if="hasIcon" class="icon is-small is-left">
 					<slot name="icon"></slot>
-				</span>
-				<span v-if="!valid" class="icon is-small is-right">
-					<i class="fas fa-exclamation-triangle"></i>
 				</span>
 			</div>
 		</div>
@@ -28,7 +25,7 @@ export interface Props {
 	placeholder?: string;
 	valid?: boolean;
 	errorMessage?: string;
-	noIcon?: boolean;
+	hasIcon?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -36,7 +33,7 @@ const props = withDefaults(defineProps<Props>(), {
 	type: "text",
 	valid: true,
 	errorMessage: "",
-	noIcon: true,
+	hasIcon: false,
 });
 
 const emit = defineEmits<{
