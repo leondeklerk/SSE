@@ -6,12 +6,19 @@
 	height: 100vh;
 }
 
-.h-100 {
+.is-grid {
+	display: grid;
+	align-items: stretch;
+	height: 100%;
+	grid-template-rows: min-content auto min-content;
+}
+
+.is-parent-height {
 	height: 100%;
 }
 
-.h-fit-parent {
-	height: auto;
+.is-parent-width {
+	width: 100%;
 }
 
 .is-circular {

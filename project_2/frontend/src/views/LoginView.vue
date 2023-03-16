@@ -1,5 +1,5 @@
 <template>
-	<div class="columns is-vcentered is-centered h-100">
+	<div class="columns is-vcentered is-centered is-parent-height">
 		<div class="column is-one-third">
 			<card-component title="Login" :buttons="cardButtons" @button-click="onClick">
 				<InputComponent v-model="username">
@@ -29,12 +29,15 @@ const router = useRouter();
 
 const cardButtons: Ref<CardButton[]> = ref([
 	{
-		class: "is-primary is-outlined",
+		parentWidth: true,
+		type: "primary",
+		outlined: true,
 		text: "Register",
 		name: "register",
 	},
 	{
-		class: "is-primary",
+		parentWidth: true,
+		type: "primary",
 		text: "Login",
 		name: "login",
 	},

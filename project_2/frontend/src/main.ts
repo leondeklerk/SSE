@@ -13,6 +13,7 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 
+// If not logged in
 router.push("/login");
 
 app.mount("#app");

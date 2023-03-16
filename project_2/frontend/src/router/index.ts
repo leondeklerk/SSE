@@ -4,6 +4,7 @@ import LoginView from "@/views/LoginView.vue";
 import ProjectView from "@/views/ProjectView.vue";
 import NavBar from "@/components/NavBar.vue";
 import IndexView from "@/views/IndexView.vue";
+import ProjectCreate from "@/views/ProjectCreate.vue";
 
 declare module "vue-router" {
 	interface RouteMeta {}
@@ -25,6 +26,14 @@ const router = createRouter({
 			name: "project",
 			components: {
 				default: ProjectView,
+				NavBar: NavBar,
+			},
+		},
+		{
+			path: "/project/create",
+			name: "projectCreate",
+			components: {
+				default: ProjectCreate,
 				NavBar: NavBar,
 			},
 		},

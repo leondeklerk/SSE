@@ -4,12 +4,12 @@
 			<h1 class="title">Project {{ route.params.id }}</h1>
 		</template>
 		<template #headerRight>
-			<button class="button is-medium is-rounded is-light is-primary">
+			<button-component :rounded="true" :light="true" type="primary">
 				<span>edit project</span>
 				<span class="icon">
 					<i class="fas fa-edit fa-lg"></i>
 				</span>
-			</button>
+			</button-component>
 		</template>
 		<template #default>Project content</template>
 	</page-component>
@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import PageComponent from "@/components/PageComponent.vue";
+import ButtonComponent from "@/components/ButtonComponent.vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();

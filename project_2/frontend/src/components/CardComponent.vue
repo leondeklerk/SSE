@@ -12,7 +12,14 @@
 		</div>
 		<footer class="card-footer">
 			<div class="card-footer-item" v-for="(button, index) in buttons" :key="index">
-				<button @click="$emit('buttonClick', button.name)" class="button is-fluid container" :class="button.class">{{ button.text }}</button>
+				<button-component
+					@click="$emit('buttonClick', button.name)"
+					:class="{ 'is-parent-width': button.parentWidth || false }"
+					:parent-width="button.parentWidth || false"
+					:outlined="button.outlined || false"
+					:type="button.type"
+					>{{ button.text }}</button-component
+				>
 			</div>
 		</footer>
 	</div>
@@ -20,11 +27,14 @@
 
 <script setup lang="ts">
 import { withDefaults } from "vue";
+import ButtonComponent from "./ButtonComponent.vue";
 
 export type CardButton = {
+	parentWidth?: boolean;
+	outlined?: boolean;
+	type?: string;
 	name: string;
 	text: string;
-	class: string;
 };
 
 interface Props {

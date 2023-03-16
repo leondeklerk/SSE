@@ -4,12 +4,12 @@
 			<h1 class="title">Projects</h1>
 		</template>
 		<template #headerRight>
-			<button class="button is-medium is-rounded is-light is-primary">
+			<button-component @click="createProject" :rounded="true" :light="true" type="primary">
 				<span>new project</span>
 				<span class="icon">
 					<i class="fas fa-plus fa-lg"></i>
 				</span>
-			</button>
+			</button-component>
 		</template>
 		<template #default>
 			<div class="columns is-multiline">
@@ -27,6 +27,7 @@
 import { ref, type Ref } from "vue";
 import PageComponent from "../components/PageComponent.vue";
 import CardComponent from "@/components/CardComponent.vue";
+import ButtonComponent from "@/components/ButtonComponent.vue";
 import { useRouter } from "vue-router";
 
 interface Project {
@@ -70,5 +71,9 @@ projects.value.push({
 
 function goto(id: string) {
 	router.push({ name: "project", params: { id } });
+}
+
+function createProject() {
+	router.push({ name: "projectCreate" });
 }
 </script>

@@ -1,24 +1,33 @@
 <template>
-	<nav class="navbar is-warning">
+	<nav class="navbar is-primary">
 		<div class="navbar-brand">
 			<div class="navbar-item">
-				<img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" />
+				<h1 class="title">SSE</h1>
+				<!-- <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" /> -->
 			</div>
 		</div>
 		<!-- Only for debug remove later -->
 		<div class="navbar-menu">
 			<div class="navbar-start">
 				<RouterLink class="navbar-item" to="/">Overview</RouterLink>
-				<RouterLink class="navbar-item" to="/project">Project</RouterLink>
 			</div>
 		</div>
 		<div class="navbar-end has-left-border pl-4 pr-4">
 			<div class="navbar-item mr-2">Username</div>
 			<div class="navbar-item">
-				<RouterLink to="/login" class="button is-primary"> Log out </RouterLink>
+				<button-component @click="logout" :outlined="true" :light="true" type="primary">Log out</button-component>
 			</div>
 		</div>
 	</nav>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ButtonComponent from "@/components/ButtonComponent.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+function logout() {
+	router.push("/login");
+}
+</script>
