@@ -2,7 +2,7 @@
 	<div class="">
 		<div class="">
 			<label class="label">
-				<slot></slot>
+				<slot name="name"></slot>
 			</label>
 			<div class="has-outline has-max-height">
 				<div
@@ -16,18 +16,28 @@
 				</div>
 			</div>
 			<div class="mt-3">
-				<button-component @click="open" :parent-width="true" :padding="0"> Add new company </button-component>
+				<button-component @click="openModal" :parent-width="true" :control-padding="false"> Add new company </button-component>
 			</div>
 		</div>
 	</div>
+	<ModalComponent :enable-footer="enableAddFooter" :on-close="onEntryAdd" ref="modal">
+		<template #header>
+			<slot name="modalHeader" />
+		</template>
+		<template #default="slotProps">
+			<slot name="modalContent" :close="slotProps.close"></slot>
+		</template>
+		<template #footer>
+			<slot name="modalFooter" />
+		</template>
+	</ModalComponent>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useModal } from "vue-final-modal";
+import type { ModalResponse } from "@/types/ModalTypes";
+import { computed, ref, type Ref } from "vue";
 import ButtonComponent from "./ButtonComponent.vue";
 import ModalComponent from "./ModalComponent.vue";
-import AddCompany from "./AddCompany.vue";
 
 export type ListItem = {
 	id: number;
@@ -38,11 +48,14 @@ export interface Props {
 	modelValue: Set<number>;
 	list?: ListItem[];
 	placeholder?: string;
+	enableAddFooter?: boolean;
+	onEntryAdd?: (response: ModalResponse<any>) => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	modelValue: () => new Set<number>(),
 	list: () => [],
+	enableAddFooter: false,
 });
 
 const emit = defineEmits<{
@@ -61,18 +74,11 @@ const value = computed({
 	},
 });
 
-const { open, close } = useModal({
-	component: ModalComponent,
-	attrs: {
-		title: "Add company",
-		onConfirm() {
-			close();
-		},
-	},
-	slots: {
-		default: AddCompany,
-	},
-});
+const modal: Ref<typeof ModalComponent | null> = ref(null);
+
+function openModal() {
+	modal.value?.open();
+}
 
 function onSelect(id: number) {
 	if (value.value.has(id)) {

@@ -4,11 +4,16 @@
 		<template #default>
 			<div class="columns is-centered">
 				<div class="column is-half">
-					<input-component v-model="projectName">
+					<input-component v-model="projectName" :no-icon="true">
 						<template #name> Project name </template>
 					</input-component>
-					{{ selectedCompanies }}
-					<multiselect-component v-model="selectedCompanies" :list="companyOptions"> Companies </multiselect-component>
+					<multiselect-component :on-entry-add="onEntryAdd" v-model="selectedCompanies" :list="companyOptions">
+						<template #name> Companies </template>
+						<template #modalHeader><p class="title is-uppercase has-text-weight-normal is-size-4">Add company</p></template>
+						<template #modalContent="slotProps">
+							<add-company :close="slotProps.close"></add-company>
+						</template>
+					</multiselect-component>
 				</div>
 			</div>
 		</template>
@@ -28,6 +33,9 @@ import InputComponent from "@/components/InputComponent.vue";
 import MultiselectComponent, { type ListItem } from "@/components/MultiselectComponent.vue";
 import { useRouter } from "vue-router";
 import { ref, type Ref } from "vue";
+import { ModalResponseType, type ModalResponse } from "@/types/ModalTypes";
+import type { CompanyAddData } from "@/types/ResponseTypes";
+import AddCompany from "@/components/AddCompany.vue";
 
 const router = useRouter();
 const projectName = ref("");
@@ -48,56 +56,18 @@ companyOptions.value.push(
 		id: 2,
 		text: "Company C",
 	},
-	{
-		id: 0,
-		text: "Company A",
-	},
-	{
-		id: 1,
-		text: "Company B",
-	},
-	{
-		id: 2,
-		text: "Company C",
-	},
-	{
-		id: 0,
-		text: "Company A",
-	},
-	{
-		id: 1,
-		text: "Company B",
-	},
-	{
-		id: 2,
-		text: "Company C",
-	},
-
-	{
-		id: 0,
-		text: "Company A",
-	},
-	{
-		id: 1,
-		text: "Company B",
-	},
-	{
-		id: 2,
-		text: "Company C",
-	},
-	{
-		id: 0,
-		text: "Company A",
-	},
-	{
-		id: 1,
-		text: "Company B",
-	},
-	{
-		id: 2,
-		text: "Company C",
-	},
 );
+
+function onEntryAdd(response: ModalResponse<CompanyAddData | null>): void {
+	if (response.success && response.type === ModalResponseType.SUCCESS) {
+		if (response.data) {
+			companyOptions.value.push({
+				id: response.data.id,
+				text: response.data.name,
+			});
+		}
+	}
+}
 
 function cancel() {
 	router.push("/");
