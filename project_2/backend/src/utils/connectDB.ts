@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 import config from 'config';
 
-const dbUrl = `mongodb://${config.get('dbName')}:${config.get(
+
+const dbUrl = `mongodb://${config.get('dbUser')}:${config.get(
   'dbPass'
-)}@localhost:6000/jwtAuth?authSource=admin`;
+)}@localhost:6000/${config.get('dbName')}?authSource=admin`;
 
 const connectDB = async () => {
   try {

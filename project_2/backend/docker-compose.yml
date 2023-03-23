@@ -13,6 +13,21 @@ services:
       - mongo:/data/db
     ports:
       - '6000:27017'
+  mongo-seed:
+    build:
+      context: .
+      dockerfile: ./mongo-seed/Dockerfile
+    depends_on:
+      - mongo
+    environment:
+      MONGO_HOST: mongo
+      MONGO_DB: ${MONGODB_DATABASE_NAME}
+      USERNAME: ${MONGODB_USERNAME}
+      PASSWORD: ${MONGODB_PASSWORD}
+    env_file:
+      - ./.env
+    volumes:
+      - ./mongo-seed:/mongo-seed
   redis:
     image: redis:latest
     container_name: redis
