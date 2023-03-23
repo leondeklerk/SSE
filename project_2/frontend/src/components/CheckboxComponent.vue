@@ -1,5 +1,5 @@
 <template>
-	<div class="control">
+	<div class="control is-parent-width has-text-centered">
 		<label class="checkbox">
 			<input v-model="value" type="checkbox" />
 			<slot></slot>

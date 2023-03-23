@@ -1,9 +1,9 @@
 <template>
-	<div class="control">
+	<div class="control has-text-centered">
 		<div class="">
 			<div v-for="(option, index) in options" :key="index" class="radio">
-				<div class="is-flex is-flex-direction-column pl-4 pr-0">
-					<input type="radio" :checked="value?.value == option.value" @click="value = option" />
+				<div class="is-flex is-flex-direction-column pl-4 pr-0" @click="value = option.value">
+					<input type="radio" :checked="value === option.value" />
 					<p class="pt-2 has-text-centered">{{ option.label }}</p>
 				</div>
 			</div>
@@ -19,7 +19,7 @@ export type LikertOption = {
 };
 
 export interface Props {
-	modelValue?: LikertOption | null;
+	modelValue?: number | null;
 	options: LikertOption[];
 }
 
@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-	(e: "update:modelValue", value: LikertOption | null): void;
+	(e: "update:modelValue", value: number | null): void;
 }>();
 
 /**
@@ -38,7 +38,7 @@ const value = computed({
 	get() {
 		return props.modelValue;
 	},
-	set(value: LikertOption | null) {
+	set(value: number | null) {
 		emit("update:modelValue", value);
 	},
 });

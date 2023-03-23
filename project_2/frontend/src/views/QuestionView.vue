@@ -5,28 +5,70 @@
 				{{ category.text }}
 			</template>
 			<template #default>
-				<div v-for="(question, qIndex) of category.questions" :key="qIndex" class="level">
-					<div class="level-left">{{ question.text }}</div>
-					<div class="level-right">
-						<checkbox-component v-if="question.answerType === 'boolean'" v-model="(question as BooleanQuestion).value" />
-						<likert-component v-else v-model="(question as LikertQuestion).value" :options="(question as LikertQuestion).options" />
+				<template v-for="(question, qIndex) of category.questions" :key="qIndex">
+					<div class="columns is-vcentered is-centered has-text-centered-mobile">
+						<div class="column">
+							{{ question.text }}
+						</div>
+						<div class="column is-one-third">
+							<checkbox-component class="" v-if="question.answerType === 'boolean'" v-model="(question as BooleanQuestion).value" />
+							<likert-component
+								v-else-if="question.answerType === 'scale'"
+								v-model="(question as LikertQuestion).value"
+								:options="(question as LikertQuestion).options"
+							/>
+							<yes-no-selector
+								v-else-if="question.answerType === 'booleanSelector'"
+								v-model="(question as BooleanSelectorQuestion).value"
+							/>
+							<selector-component
+								v-else-if="question.answerType === 'selector'"
+								v-model="(question as SelectorQuestion).value"
+								:options="(question as SelectorQuestion).options"
+							/>
+							<input-component v-else v-model="(question as InputQuestion).value" />
+						</div>
 					</div>
-				</div>
+				</template>
 			</template>
 		</collapsable-container>
+		<div>
+			<div class="title">Category scores</div>
+			<div v-for="(cat, index) of categoryScores" :key="index" class="level">
+				<div>{{ cat.text }}</div>
+				<div class="pr-1">{{ cat.score }}</div>
+			</div>
+		</div>
+		<div class="columns pr-0 m-0 mt-4 mb-2 is-vcentered is-centered">
+			<hr class="column p-0 m-0" />
+			<span class="column is-narrow icon p-0 pl-6">
+				<i class="fas fa-plus fa-lg"></i>
+			</span>
+		</div>
+		<div class="level">
+			<div class="">Total</div>
+			<div class="pr-1">
+				{{ totalScore }}
+			</div>
+		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import LikertComponent, { type LikertOption } from "@/components/LikertComponent.vue";
 import CheckboxComponent from "@/components/CheckboxComponent.vue";
+import YesNoSelector from "@/components/YesNoSelector.vue";
 import CollapsableContainer from "@/components/CollapsableContainer.vue";
-import { reactive, ref, type Ref } from "vue";
+import SelectorComponent from "@/components/SelectorComponent.vue";
+import InputComponent from "@/components/InputComponent.vue";
+import { reactive, ref, type Ref, computed } from "vue";
+import type { SelectorOption } from "@/components/SelectorComponent.vue";
 
 export interface Question {
 	id: number;
 	text: string;
-	answerType: "boolean" | "scale";
+	answerType: "boolean" | "scale" | "booleanSelector" | "selector" | "input";
+	value: boolean | string | number | null;
 }
 
 export interface BooleanQuestion extends Question {
@@ -34,9 +76,25 @@ export interface BooleanQuestion extends Question {
 	value: boolean;
 }
 
+export interface InputQuestion extends Question {
+	answerType: "input";
+	value: string | number | null;
+}
+
+export interface BooleanSelectorQuestion extends Question {
+	answerType: "booleanSelector";
+	value: boolean | null;
+}
+
+export interface SelectorQuestion extends Question {
+	answerType: "selector";
+	value: string | null;
+	options: SelectorOption[];
+}
+
 export interface LikertQuestion extends Question {
 	options: LikertOption[];
-	value: LikertOption | null;
+	value: number | null;
 	answerType: "scale";
 }
 
@@ -83,15 +141,28 @@ const categories: Category[] = reactive([
 			{
 				id: 1,
 				text: "Question A - 2",
-				answerType: "scale",
+				answerType: "booleanSelector",
 				value: null,
-				options: likertOptions,
 			},
 			{
 				id: 2,
 				text: "Question A - 3",
-				answerType: "boolean",
-				value: false,
+				answerType: "selector",
+				options: [
+					{
+						value: "mit",
+						text: "MIT",
+					},
+					{
+						value: "gpl",
+						text: "GPL",
+					},
+					{
+						value: "apache",
+						text: "APACHE",
+					},
+				],
+				value: null,
 			},
 			{
 				id: 3,
@@ -103,8 +174,8 @@ const categories: Category[] = reactive([
 			{
 				id: 4,
 				text: "Question A - 5",
-				answerType: "boolean",
-				value: false,
+				answerType: "input",
+				value: null,
 			},
 		],
 	},
@@ -203,4 +274,37 @@ const categories: Category[] = reactive([
 		],
 	},
 ]);
+
+const categoryScores = computed(() => {
+	let scores: { text: string; score: number }[] = [];
+	categories.forEach((category) => {
+		let score = 0;
+		category.questions.forEach((question) => {
+			const value = question.value;
+			if (typeof value === "boolean") {
+				if (value) {
+					score += 1;
+				}
+			} else if (typeof value === "number") {
+				if (value > 0) {
+					score += value;
+				}
+			} else if (typeof value === "string") {
+				if (value !== "") {
+					score += 1;
+				}
+			}
+		});
+		scores.push({ text: category.text, score: score });
+	});
+	return scores;
+});
+
+const totalScore = computed(() => {
+	let total = 0;
+	for (let cat of categoryScores.value) {
+		total += cat.score;
+	}
+	return total;
+});
 </script>

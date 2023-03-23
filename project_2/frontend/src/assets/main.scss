@@ -2,23 +2,6 @@
 @import "./_variables";
 @import "bulma/bulma";
 
-.is-collapsible {
-	height: 0;
-	overflow-y: hidden;
-	transition: height $collapse-transition-speed $collapse-transition-style;
-
-	&.is-active {
-		transition: height $collapse-transition-speed $collapse-transition-style;
-	}
-	&.message-body {
-		padding: 0 !important;
-
-		.message-body-content {
-			padding: $message-body-padding;
-		}
-	}
-}
-
 .is-screen-height {
 	height: 100vh;
 }

@@ -1,6 +1,6 @@
 <template>
 	<div class="panel">
-		<div @click="toggle" class="panel-heading level mb-0">
+		<div @click="toggle" class="panel-heading level is-mobile mb-0">
 			<div class="level-left">
 				<slot name="header" />
 			</div>
@@ -11,7 +11,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="is-coll" v-show="!collapsed">
+		<div class="p-5" v-show="!collapsed">
 			<slot name="default" />
 		</div>
 	</div>

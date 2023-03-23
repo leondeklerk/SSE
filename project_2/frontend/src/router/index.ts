@@ -6,6 +6,7 @@ import NavBar from "@/components/NavBar.vue";
 import IndexView from "@/views/IndexView.vue";
 import ProjectCreate from "@/views/ProjectCreate.vue";
 import { useAuthStore } from "@/stores/auth";
+import QuestionView from "@/views/QuestionView.vue";
 
 declare module "vue-router" {
 	interface RouteMeta {
@@ -61,6 +62,14 @@ const router = createRouter({
 			path: "/register",
 			name: "register",
 			component: RegisterView,
+			meta: {
+				requiresAuth: false,
+			},
+		},
+		{
+			path: "/form",
+			name: "questions",
+			component: QuestionView,
 			meta: {
 				requiresAuth: false,
 			},

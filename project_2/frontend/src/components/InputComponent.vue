@@ -1,43 +1,43 @@
 <template>
-	<div class="field">
-		<div class="control" :class="{ 'has-icons-left': hasIcon }">
-			<label class="label">
-				<slot name="name"></slot>
-			</label>
-			<div class="control">
-				<input class="input" :type="type" v-model="value" :placeholder="placeholder" />
-				<span v-if="hasIcon" class="icon is-small is-left">
-					<slot name="icon"></slot>
-				</span>
-			</div>
+	<div class="control" :class="{ 'has-icons-left': hasIcon }">
+		<label class="label">
+			<slot name="name"></slot>
+		</label>
+		<div class="control">
+			<input class="input" :type="type" v-model="value" :placeholder="placeholder" />
+			<span v-if="hasIcon" class="icon is-small is-left">
+				<slot name="icon"></slot>
+			</span>
 		</div>
-		<p v-if="errorMessage && !valid" class="help is-danger">{{ computedError }}</p>
-		<p v-else class="help is-danger" v-html="'&nbsp;'"></p>
 	</div>
+	<p v-if="!noError && errorMessage && !valid" class="help is-danger">{{ computedError }}</p>
+	<p v-else-if="!noError" class="help is-danger" v-html="'&nbsp;'"></p>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
 
 export interface Props {
-	modelValue: string;
+	modelValue?: string | number | null;
 	type?: string;
 	placeholder?: string;
 	valid?: boolean;
 	errorMessage?: string;
 	hasIcon?: boolean;
+	noError?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	modelValue: "",
+	modelValue: null,
 	type: "text",
 	valid: true,
 	errorMessage: "",
 	hasIcon: false,
+	noError: true,
 });
 
 const emit = defineEmits<{
-	(e: "update:modelValue", value: string): void;
+	(e: "update:modelValue", value: string | number | null): void;
 }>();
 
 /**
@@ -47,7 +47,7 @@ const value = computed({
 	get() {
 		return props.modelValue;
 	},
-	set(value: string) {
+	set(value: string | number | null) {
 		emit("update:modelValue", value);
 	},
 });

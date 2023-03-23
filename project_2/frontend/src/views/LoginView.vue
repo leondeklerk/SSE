@@ -2,13 +2,13 @@
 	<div class="columns is-vcentered is-centered is-parent-height">
 		<div class="column is-one-third">
 			<card-component title="Login" :buttons="cardButtons" @button-click="onClick">
-				<InputComponent v-model="email" :has-icon="true">
+				<InputComponent v-model="email" :has-icon="true" :no-error="false">
 					<template #name> Email </template>
 					<template #icon>
 						<i class="fas fa-envelope"></i>
 					</template>
 				</InputComponent>
-				<InputComponent type="password" v-model="password" :has-icon="true">
+				<InputComponent type="password" v-model="password" :has-icon="true" :no-error="false">
 					<template #name>Password</template>
 					<template #icon><i class="fas fa-lock"></i></template>
 				</InputComponent>

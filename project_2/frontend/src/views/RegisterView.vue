@@ -2,23 +2,23 @@
 	<div class="columns is-vcentered is-centered is-parent-height">
 		<div class="column is-one-third">
 			<card-component title="Register" :buttons="cardButtons" @button-click="onClick">
-				<InputComponent v-model="username">
+				<InputComponent v-model="username" :no-error="false">
 					<template #name> Username </template>
 					<template #icon>
 						<i class="fas fa-envelope"></i>
 					</template>
 				</InputComponent>
-				<InputComponent v-model="email">
+				<InputComponent v-model="email" :no-error="false">
 					<template #name> Email </template>
 					<template #icon>
 						<i class="fas fa-envelope"></i>
 					</template>
 				</InputComponent>
-				<InputComponent :valid="passwordsMatch" type="password" v-model="password">
+				<InputComponent :valid="passwordsMatch" type="password" v-model="password" :no-error="false">
 					<template #name>Password</template>
 					<template #icon><i class="fas fa-lock"></i></template>
 				</InputComponent>
-				<InputComponent :valid="passwordsMatch" :error-message="passwordError" type="password" v-model="passwordConfirm">
+				<InputComponent :valid="passwordsMatch" :error-message="passwordError" type="password" v-model="passwordConfirm" :no-error="false">
 					<template #name>Confirm password</template>
 					<template #icon><i class="fas fa-lock"></i></template>
 				</InputComponent>
