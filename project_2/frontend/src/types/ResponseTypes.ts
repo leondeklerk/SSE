@@ -32,3 +32,19 @@ export type UserDataResponse = {
 	};
 	status: string;
 };
+
+export type QuestionResponse = {
+	status: string;
+	result: number;
+	data: {
+		questions: QuestionData[];
+	};
+};
+
+export type QuestionData = {
+	_id: string;
+	text: string;
+	answerType: "Options" | "Boolean" | "Dropdown" | "Scale";
+	category: string;
+	options: Record<string, number>[];
+};

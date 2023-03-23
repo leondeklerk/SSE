@@ -12,7 +12,7 @@
 			</button-component>
 		</template>
 		<template #default>
-			<question-view />
+			<question-view :in-page="true" />
 		</template>
 	</page-component>
 </template>

@@ -1,10 +1,10 @@
 <template>
 	<div class="control has-text-centered">
-		<div class="">
-			<div v-for="(option, index) in options" :key="index" class="radio">
-				<div class="is-flex is-flex-direction-column pl-4 pr-0" @click="value = option.value">
-					<input type="radio" :checked="value === option.value" />
-					<p class="pt-2 has-text-centered">{{ option.label }}</p>
+		<div class="columns">
+			<div v-for="(option, index) in options" :key="index" class="radio column">
+				<div class="" @click="value = option.text">
+					<input type="radio" :checked="value === option.text" />
+					<p class="pt-2 has-text-centered">{{ option.text }}</p>
 				</div>
 			</div>
 		</div>
@@ -12,15 +12,11 @@
 </template>
 <script lang="ts" setup>
 import { computed } from "vue";
-
-export type LikertOption = {
-	value: number;
-	label: string;
-};
+import type { Option } from "../types/InputTypes";
 
 export interface Props {
-	modelValue?: number | null;
-	options: LikertOption[];
+	modelValue?: string | null;
+	options: Option[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -28,7 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-	(e: "update:modelValue", value: number | null): void;
+	(e: "update:modelValue", value: string | null): void;
 }>();
 
 /**
@@ -38,7 +34,7 @@ const value = computed({
 	get() {
 		return props.modelValue;
 	},
-	set(value: number | null) {
+	set(value: string | null) {
 		emit("update:modelValue", value);
 	},
 });

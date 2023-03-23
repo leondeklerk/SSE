@@ -14,15 +14,11 @@
 	</div>
 </template>
 <script lang="ts" setup>
+import type { Option } from "@/types/InputTypes";
 import { computed } from "vue";
 
-export type SelectorOption = {
-	value: string;
-	text: string;
-};
-
 export interface Props {
-	options?: SelectorOption[];
+	options?: Option[];
 	modelValue?: string | null;
 }
 

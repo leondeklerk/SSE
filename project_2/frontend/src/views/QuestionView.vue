@@ -1,102 +1,67 @@
 <template>
-	<div>
-		<collapsable-container v-for="(category, index) of categories" :key="index">
-			<template #header>
-				{{ category.text }}
-			</template>
-			<template #default>
-				<template v-for="(question, qIndex) of category.questions" :key="qIndex">
-					<div class="columns is-vcentered is-centered has-text-centered-mobile">
-						<div class="column">
-							{{ question.text }}
-						</div>
-						<div class="column is-one-third">
-							<checkbox-component class="" v-if="question.answerType === 'boolean'" v-model="(question as BooleanQuestion).value" />
-							<likert-component
-								v-else-if="question.answerType === 'scale'"
-								v-model="(question as LikertQuestion).value"
-								:options="(question as LikertQuestion).options"
-							/>
-							<yes-no-selector
-								v-else-if="question.answerType === 'booleanSelector'"
-								v-model="(question as BooleanSelectorQuestion).value"
-							/>
-							<selector-component
-								v-else-if="question.answerType === 'selector'"
-								v-model="(question as SelectorQuestion).value"
-								:options="(question as SelectorQuestion).options"
-							/>
-							<input-component v-else v-model="(question as InputQuestion).value" />
-						</div>
-					</div>
+	<component :is="inPage ? 'div' : PageComponent">
+		<template v-if="!inPage" #headerLeft>
+			<h1 class="title">Questionnaire</h1>
+		</template>
+		<template #default>
+			<collapsable-container v-for="(category, index) of categories" :key="index">
+				<template #header>
+					{{ category.text }}
 				</template>
-			</template>
-		</collapsable-container>
-		<div>
-			<div class="title">Category scores</div>
-			<div v-for="(cat, index) of categoryScores" :key="index" class="level">
-				<div>{{ cat.text }}</div>
-				<div class="pr-1">{{ cat.score }}</div>
-			</div>
-		</div>
-		<div class="columns pr-0 m-0 mt-4 mb-2 is-vcentered is-centered">
-			<hr class="column p-0 m-0" />
-			<span class="column is-narrow icon p-0 pl-6">
-				<i class="fas fa-plus fa-lg"></i>
-			</span>
-		</div>
-		<div class="level">
-			<div class="">Total</div>
-			<div class="pr-1">
-				{{ totalScore }}
-			</div>
-		</div>
-	</div>
+				<template #default>
+					<template v-for="(question, qIndex) of category.questions" :key="qIndex">
+						<div class="columns is-vcentered is-centered has-text-centered-mobile">
+							<div class="column">
+								{{ question.text }}
+							</div>
+							<div class="column is-two-fifths">
+								<likert-component
+									v-if="question.answerType === 'scale'"
+									v-model="(question as LikertQuestion).value"
+									:options="(question as LikertQuestion).options"
+								/>
+								<yes-no-selector v-else-if="question.answerType === 'boolean'" v-model="(question as BooleanQuestion).value" />
+								<selector-component
+									v-else-if="question.answerType === 'selector'"
+									v-model="(question as SelectorQuestion).value"
+									:options="(question as SelectorQuestion).options"
+								/>
+								<dropdown-component
+									v-else-if="question.answerType === 'dropdown'"
+									v-model="(question as DropdownQuestion).value"
+									:options="(question as DropdownQuestion).options"
+								/>
+								<input-component v-else v-model="(question as InputQuestion).value" />
+							</div>
+						</div>
+					</template>
+				</template>
+			</collapsable-container>
+			<score-component v-if="inPage" :total-score="totalScore" :category-scores="categoryScores" />
+		</template>
+
+		<template #footer v-if="!inPage">
+			<score-component :total-score="totalScore" :category-scores="categoryScores" />
+		</template>
+	</component>
 </template>
 
 <script lang="ts" setup>
-import LikertComponent, { type LikertOption } from "@/components/LikertComponent.vue";
-import CheckboxComponent from "@/components/CheckboxComponent.vue";
+import LikertComponent from "@/components/LikertComponent.vue";
 import YesNoSelector from "@/components/YesNoSelector.vue";
 import CollapsableContainer from "@/components/CollapsableContainer.vue";
 import SelectorComponent from "@/components/SelectorComponent.vue";
 import InputComponent from "@/components/InputComponent.vue";
-import { reactive, ref, type Ref, computed } from "vue";
-import type { SelectorOption } from "@/components/SelectorComponent.vue";
-
-export interface Question {
-	id: number;
-	text: string;
-	answerType: "boolean" | "scale" | "booleanSelector" | "selector" | "input";
-	value: boolean | string | number | null;
-}
-
-export interface BooleanQuestion extends Question {
-	answerType: "boolean";
-	value: boolean;
-}
-
-export interface InputQuestion extends Question {
-	answerType: "input";
-	value: string | number | null;
-}
-
-export interface BooleanSelectorQuestion extends Question {
-	answerType: "booleanSelector";
-	value: boolean | null;
-}
-
-export interface SelectorQuestion extends Question {
-	answerType: "selector";
-	value: string | null;
-	options: SelectorOption[];
-}
-
-export interface LikertQuestion extends Question {
-	options: LikertOption[];
-	value: number | null;
-	answerType: "scale";
-}
+import ScoreComponent from "@/components/ScoreComponent.vue";
+import DropdownComponent from "@/components/DropdownComponent.vue";
+// Is used as a dynamic component
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import PageComponent from "@/components/PageComponent.vue";
+import { reactive, computed, ref, type Ref } from "vue";
+import { get } from "@/helpers/ApiHandler";
+import type { BooleanQuestion, DropdownQuestion, InputQuestion, LikertQuestion, Question, SelectorQuestion } from "@/types/QuestionTypes";
+import type { ApiResponse, QuestionResponse } from "@/types/ResponseTypes";
+import type { Option } from "@/types/InputTypes";
 
 export type Category = {
 	id: number;
@@ -104,195 +69,109 @@ export type Category = {
 	questions: Question[];
 };
 
-const likertOptions = reactive([
-	{
-		value: 1,
-		label: "One",
-	},
-	{
-		value: 2,
-		label: "Two",
-	},
-	{
-		value: 3,
-		label: "Three",
-	},
-	{
-		value: 4,
-		label: "Four",
-	},
-	{
-		value: 5,
-		label: "Five",
-	},
-]);
+export type CategoryScore = {
+	text: string;
+	score: number;
+};
 
-const categories: Category[] = reactive([
-	{
-		id: 0,
-		text: "Category A",
-		questions: [
-			{
-				id: 0,
-				text: "Question A - 1",
-				answerType: "boolean",
-				value: false,
-			},
-			{
-				id: 1,
-				text: "Question A - 2",
-				answerType: "booleanSelector",
-				value: null,
-			},
-			{
-				id: 2,
-				text: "Question A - 3",
-				answerType: "selector",
-				options: [
-					{
-						value: "mit",
-						text: "MIT",
-					},
-					{
-						value: "gpl",
-						text: "GPL",
-					},
-					{
-						value: "apache",
-						text: "APACHE",
-					},
-				],
-				value: null,
-			},
-			{
-				id: 3,
-				text: "Question A - 4",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 4,
-				text: "Question A - 5",
-				answerType: "input",
-				value: null,
-			},
-		],
-	},
-	{
-		id: 1,
-		text: "Category B",
-		questions: [
-			{
-				id: 0,
-				text: "Question B - 1",
-				answerType: "boolean",
-				value: false,
-			},
-			{
-				id: 1,
-				text: "Question B - 2",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 2,
-				text: "Question B - 3",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 3,
-				text: "Question B - 4",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 4,
-				text: "Question B - 5",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-		],
-	},
-	{
-		id: 2,
-		text: "Category C",
-		questions: [
-			{
-				id: 0,
-				text: "Question C - 1",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 1,
-				text: "Question C - 2",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 2,
-				text: "Question C - 3",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 3,
-				text: "Question C - 4",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 4,
-				text: "Question C - 5",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 5,
-				text: "Question C - 6",
-				answerType: "scale",
-				value: null,
-				options: likertOptions,
-			},
-			{
-				id: 6,
-				text: "Question C - 7",
-				answerType: "boolean",
-				value: false,
-			},
-		],
-	},
-]);
+interface Props {
+	inPage?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	inPage: false,
+});
+
+const categories: Ref<Category[]> = ref([]);
+
+const results = await get<QuestionResponse>("/questions", false);
+
+buildData(results);
+
+function buildData(results: ApiResponse<QuestionResponse>) {
+	const result: Category[] = [];
+	if (!results.result) {
+		return result;
+	}
+	const data = results.result.data.questions;
+
+	const tempData: Record<string, Category> = {};
+	data.forEach((qData, index) => {
+		if (!tempData[qData.category]) {
+			tempData[qData.category] = {
+				id: index,
+				text: qData.category,
+				questions: [],
+			};
+		}
+
+		const category = tempData[qData.category];
+
+		let answerType: "input" | "boolean" | "dropdown" | "selector" | "scale" = "input";
+		switch (qData.answerType) {
+			case "Boolean":
+				answerType = "boolean";
+				break;
+			case "Dropdown":
+				answerType = "dropdown";
+				break;
+			case "Options":
+				answerType = "selector";
+				break;
+			case "Scale":
+				answerType = "scale";
+				break;
+		}
+
+		let question: Question = {
+			id: index,
+			value: null,
+			text: qData.text,
+			answerType: answerType,
+			options: null,
+			scores: {},
+		};
+
+		let options: Option[] = [];
+		let scores: Record<string, number> = {};
+		for (let option of qData.options) {
+			const key = Object.keys(option)[0];
+			options.push({
+				value: key,
+				text: key,
+			});
+			scores[key] = option[key];
+		}
+
+		question.scores = scores;
+
+		if (options.length > 0) {
+			question.options = options;
+		}
+
+		category.questions.push(question);
+	});
+
+	for (let category in tempData) {
+		result.push(tempData[category]);
+	}
+
+	categories.value = result;
+}
 
 const categoryScores = computed(() => {
 	let scores: { text: string; score: number }[] = [];
-	categories.forEach((category) => {
+	categories.value.forEach((category) => {
 		let score = 0;
 		category.questions.forEach((question) => {
 			const value = question.value;
-			if (typeof value === "boolean") {
-				if (value) {
-					score += 1;
-				}
-			} else if (typeof value === "number") {
-				if (value > 0) {
-					score += value;
-				}
-			} else if (typeof value === "string") {
-				if (value !== "") {
-					score += 1;
-				}
+			if (value == null) {
+				return;
+			}
+
+			const addScore = question.scores[`${value}`];
+			if (addScore) {
+				score += addScore;
 			}
 		});
 		scores.push({ text: category.text, score: score });
