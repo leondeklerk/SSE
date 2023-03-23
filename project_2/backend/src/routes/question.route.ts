@@ -5,7 +5,8 @@ import { requireUser } from '../middleware/requireUser'
 
 const router = express.Router();
 
-router.use(deserializeUser, requireUser);
+// Make it only accessible for users...
+// router.use(deserializeUser, requireUser);
 
 router.get("/", getAllQuestionsHandler);
 
