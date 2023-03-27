@@ -20,8 +20,15 @@
 				<div class="is-flex-grow-0 is-flex-shrink-1" v-if="enableFooter">
 					<slot name="footer">
 						<div class="field is-grouped is-pulled-right">
-							<button-component @click="close<null>(false, ModalResponseType.CANCEL, null)"> cancel </button-component>
-							<button-component @click="close<null>(true, ModalResponseType.SUCCESS, null)" type="primary"> submit </button-component>
+							<button-component v-if="type == 'default'" @click="close<null>(false, ModalResponseType.CANCEL, null)">
+								cancel
+							</button-component>
+							<button-component v-if="type == 'default'" @click="close<null>(true, ModalResponseType.SUCCESS, null)" type="primary">
+								submit
+							</button-component>
+							<button-component v-if="type == 'info'" @click="close<null>(true, ModalResponseType.SUCCESS, null)" type="primary">
+								close
+							</button-component>
 						</div>
 					</slot>
 				</div>
@@ -36,12 +43,14 @@ import { ref } from "vue";
 import ButtonComponent from "./ButtonComponent.vue";
 
 interface Props {
+	type: "default" | "info";
 	onClose?: (response: ModalResponse<any>) => void;
 	enableFooter?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
 	enableFooter: true,
+	type: "default",
 });
 
 const opened = ref(false);

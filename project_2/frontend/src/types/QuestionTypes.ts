@@ -1,5 +1,11 @@
 import type { Option } from "./InputTypes";
 
+export type Category = {
+	id: number;
+	text: string;
+	questions: Question[];
+};
+
 export interface Question {
 	id: number;
 	text: string;
@@ -33,6 +39,6 @@ export interface DropdownQuestion extends Question {
 
 export interface LikertQuestion extends Question {
 	options: Option[];
-	value: number | null;
+	value: string | null;
 	answerType: "scale";
 }

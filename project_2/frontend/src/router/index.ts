@@ -7,6 +7,7 @@ import IndexView from "@/views/IndexView.vue";
 import ProjectCreate from "@/views/ProjectCreate.vue";
 import { useAuthStore } from "@/stores/auth";
 import QuestionView from "@/views/QuestionView.vue";
+import ResultView from "@/views/ResultView.vue";
 
 declare module "vue-router" {
 	interface RouteMeta {
@@ -70,6 +71,14 @@ const router = createRouter({
 			path: "/form",
 			name: "questions",
 			component: QuestionView,
+			meta: {
+				requiresAuth: false,
+			},
+		},
+		{
+			path: "/result",
+			name: "result",
+			component: ResultView,
 			meta: {
 				requiresAuth: false,
 			},

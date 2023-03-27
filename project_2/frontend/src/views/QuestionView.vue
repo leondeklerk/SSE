@@ -37,11 +37,11 @@
 					</template>
 				</template>
 			</collapsable-container>
-			<score-component v-if="inPage" :total-score="totalScore" :category-scores="categoryScores" />
+			<button-component :type="'primary'" class="is-pulled-right" v-if="inPage" @click="submit">Submit</button-component>
 		</template>
 
 		<template #footer v-if="!inPage">
-			<score-component :total-score="totalScore" :category-scores="categoryScores" />
+			<button-component :type="'primary'" class="is-pulled-right" @click="submit">Submit</button-component>
 		</template>
 	</component>
 </template>
@@ -52,27 +52,19 @@ import YesNoSelector from "@/components/YesNoSelector.vue";
 import CollapsableContainer from "@/components/CollapsableContainer.vue";
 import SelectorComponent from "@/components/SelectorComponent.vue";
 import InputComponent from "@/components/InputComponent.vue";
-import ScoreComponent from "@/components/ScoreComponent.vue";
 import DropdownComponent from "@/components/DropdownComponent.vue";
+import ButtonComponent from "@/components/ButtonComponent.vue";
 // Is used as a dynamic component
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import PageComponent from "@/components/PageComponent.vue";
-import { reactive, computed, ref, type Ref } from "vue";
+import { ref, type Ref } from "vue";
 import { get } from "@/helpers/ApiHandler";
-import type { BooleanQuestion, DropdownQuestion, InputQuestion, LikertQuestion, Question, SelectorQuestion } from "@/types/QuestionTypes";
+import type { BooleanQuestion, DropdownQuestion, InputQuestion, LikertQuestion, Question, SelectorQuestion, Category } from "@/types/QuestionTypes";
 import type { ApiResponse, QuestionResponse } from "@/types/ResponseTypes";
 import type { Option } from "@/types/InputTypes";
-
-export type Category = {
-	id: number;
-	text: string;
-	questions: Question[];
-};
-
-export type CategoryScore = {
-	text: string;
-	score: number;
-};
+import { useRouter } from "vue-router";
+import { useResultStore } from "@/stores/results";
+import type { CategoryResult, QuestionResult } from "@/types/ResultTypes";
 
 interface Props {
 	inPage?: boolean;
@@ -85,6 +77,7 @@ const props = withDefaults(defineProps<Props>(), {
 const categories: Ref<Category[]> = ref([]);
 
 const results = await get<QuestionResponse>("/questions", false);
+const router = useRouter();
 
 buildData(results);
 
@@ -107,21 +100,7 @@ function buildData(results: ApiResponse<QuestionResponse>) {
 
 		const category = tempData[qData.category];
 
-		let answerType: "input" | "boolean" | "dropdown" | "selector" | "scale" = "input";
-		switch (qData.answerType) {
-			case "Boolean":
-				answerType = "boolean";
-				break;
-			case "Dropdown":
-				answerType = "dropdown";
-				break;
-			case "Options":
-				answerType = "selector";
-				break;
-			case "Scale":
-				answerType = "scale";
-				break;
-		}
+		const answerType = mapInputType(qData.answerType);
 
 		let question: Question = {
 			id: index,
@@ -159,31 +138,82 @@ function buildData(results: ApiResponse<QuestionResponse>) {
 	categories.value = result;
 }
 
-const categoryScores = computed(() => {
-	let scores: { text: string; score: number }[] = [];
-	categories.value.forEach((category) => {
-		let score = 0;
-		category.questions.forEach((question) => {
-			const value = question.value;
-			if (value == null) {
-				return;
-			}
-
-			const addScore = question.scores[`${value}`];
-			if (addScore) {
-				score += addScore;
-			}
-		});
-		scores.push({ text: category.text, score: score });
-	});
-	return scores;
-});
-
-const totalScore = computed(() => {
-	let total = 0;
-	for (let cat of categoryScores.value) {
-		total += cat.score;
+// Map back-end to front-end types (should be refactored)
+function mapInputType(inType: string): "input" | "boolean" | "dropdown" | "selector" | "scale" {
+	let answerType: "input" | "boolean" | "dropdown" | "selector" | "scale" = "input";
+	switch (inType) {
+		case "Boolean":
+			answerType = "boolean";
+			break;
+		case "Dropdown":
+			answerType = "dropdown";
+			break;
+		case "Options":
+			answerType = "selector";
+			break;
+		case "Scale":
+			answerType = "scale";
+			break;
 	}
-	return total;
-});
+	return answerType;
+}
+
+function submit() {
+	const store = useResultStore();
+
+	store.setResult({
+		submitData: buildResultData(),
+		inPage: props.inPage,
+	});
+
+	router.push({
+		name: "result",
+	});
+}
+
+function buildResultData() {
+	let results: CategoryResult[] = [];
+	categories.value.forEach((category) => {
+		let questions: QuestionResult[] = [];
+		category.questions.forEach((question) => {
+			questions.push({
+				question: question.text,
+				answerText: getAnswerText(question),
+				score: getScore(question),
+			});
+		});
+
+		results.push({ name: category.text, questions: questions });
+	});
+	return results;
+}
+
+function getScore(question: Question): number {
+	let score = 0;
+	if (question.value) {
+		score = question.scores[`${question.value}`];
+	}
+	return score;
+}
+
+function getAnswerText(question: Question): string {
+	let answerText = "";
+	switch (question.answerType) {
+		case "boolean":
+			if (question.value === false) {
+				answerText = "No";
+			} else if (question.value === true) {
+				answerText = "Yes";
+			}
+			break;
+		case "input":
+			answerText = question.value?.toString() || "";
+			break;
+		default:
+			answerText = question.options?.find((option) => option.value === question.value)?.text || "";
+			break;
+	}
+
+	return answerText;
+}
 </script>

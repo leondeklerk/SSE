@@ -1,8 +1,8 @@
 <template>
-	<div class="panel">
+	<div class="panel is-primary">
 		<div @click="toggle" class="panel-heading level is-mobile mb-0">
 			<div class="level-left">
-				<slot name="header" />
+				<slot :collapsed="collapsed" name="header" />
 			</div>
 			<div class="level-right">
 				<span class="icon">
@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="p-5" v-show="!collapsed">
-			<slot name="default" />
+			<slot name="default" :collapsed="collapsed" />
 		</div>
 	</div>
 </template>
