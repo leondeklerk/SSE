@@ -9,7 +9,7 @@
 					{{ category.name }}
 				</template>
 				<template #default>
-					<div class="container is-italic">
+					<div class="container is-italic has-text-grey-dark">
 						<span class="icon has-text-info">
 							<i class="fas fa-info-circle"></i>
 						</span>
@@ -25,12 +25,12 @@
 						<tr v-for="(question, qIndex) of category.questions" :key="qIndex">
 							<td class="">
 								{{ question.question }}
-								<div class="container is-italic is-size-6">
-									{{ questionExplanations[question.question] }}
+								<div class="container is-italic is-size-6 pt-1 has-text-grey-dark">
+									{{ question.explanation }}
 								</div>
 							</td>
 							<td class="">
-								{{ question.answerText }}
+								{{ question.answerText || "-" }}
 							</td>
 							<td class="">
 								{{ question.score }}
@@ -51,14 +51,20 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import PageComponent from "@/components/PageComponent.vue";
 import ScoreComponent from "@/components/ScoreComponent.vue";
-import { computed, ref, type ComputedRef } from "vue";
+import { computed, ref, type ComputedRef, type Ref } from "vue";
 import type { CategoryResult, ResultData } from "@/types/ResultTypes";
 import { useResultStore } from "@/stores/results";
 import CollapsableContainer from "@/components/CollapsableContainer.vue";
 import type { CategoryResultScore } from "@/types/ScoreTypes";
+import { get } from "@/helpers/ApiHandler";
+import type { CategoryResponse } from "@/types/ResponseTypes";
+import { useRouter } from "vue-router";
 
 interface Props {
 	submitData?: CategoryResult[];
+	/**
+	 * Indicates if the current component is its own page or loaded within a page.
+	 */
 	inPage?: boolean;
 }
 
@@ -82,8 +88,9 @@ const categoryScores: ComputedRef<CategoryResultScore[]> = computed(() => {
 		return {
 			name: categoryResult.name,
 			// Replace by fetch
-			explanation: "This is the category score explanation",
+			explanation: categoryExplanations.value[categoryResult.name],
 			score: categoryResult.questions.reduce((sum, current) => sum + current.score, 0),
+			maxScore: categoryResult.questions.length,
 		};
 	});
 });
@@ -96,25 +103,20 @@ const categoryResults: ComputedRef<CategoryResult[]> = computed(() => {
 	return storeData.submitData;
 });
 
-const categoryExplanations = computed(() => {
-	const result: Record<string, string> = {};
-	categoryResults.value.forEach((categoryResult) => {
-		// Replace by fetch
-		result[categoryResult.name] = "This is the category explanation";
-	});
-	return result;
+if (!inPageComp.value && categoryResults.value.length === 0) {
+	const router = useRouter();
+	router.push({ name: "questions" });
+}
+
+get<CategoryResponse>("/categories/", false).then((res) => {
+	if (res.success) {
+		res.result?.data.categories.forEach((result) => {
+			categoryExplanations.value[result.name] = result.explanation;
+		});
+	}
 });
 
-const questionExplanations = computed(() => {
-	const result: Record<string, string> = {};
-	categoryResults.value.forEach((categoryResult) => {
-		categoryResult.questions.forEach((questionResult) => {
-			// Replace by fetch
-			result[questionResult.question] = "This is a question explanation";
-		});
-	});
-	return result;
-});
+const categoryExplanations: Ref<Record<string, string>> = ref({});
 
 const totalExplanation = ref("This is an explanation of the total");
 </script>

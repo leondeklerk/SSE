@@ -1,0 +1,615 @@
+[
+  {
+    "text": "Does the company implement accessibility features?",
+    "answerType": "boolean",
+    "category": "Social",
+    "explanation": "",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Does the company have sustainability guidelines?",
+    "answerType": "boolean",
+    "category": "Social",
+    "explanation": "",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Is the company part of any sustainable alliance or group?",
+    "answerType": "boolean",
+    "category": "Social",
+    "explanation": "",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Does the company have a privacy, diversity and sustainability officer in the C-Suite?",
+    "answerType": "boolean",
+    "category": "Social",
+    "explanation": "Embedding the principles of privacy, diversity and sustainability at a high-level at the company is the best way to ensure that these are actually upheld. This metric is not relevant for startups or small companies.",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Does the company ensure GDPR compliance?",
+    "answerType": "boolean",
+    "category": "Social",
+    "explanation": "",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Is the company a B-Corp?",
+    "answerType": "boolean",
+    "category": "Social",
+    "explanation": "B-Corps is a certification given to companies that uphold the principles of social and ecological sustainability.",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Does the company take grid-load and energy mix into account when possible?",
+    "answerType": "boolean",
+    "category": "Social",
+    "explanation": "",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Does the company have a green strategy?",
+    "answerType": "boolean",
+    "category": "Social",
+    "explanation": "",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "What programming language is mainly be used?",
+    "answerType": "dropdown",
+    "category": "Software",
+    "explanation": "Some programming languages take longer, more memory and more energy to solve specific problems than others.",
+    "options": [
+      {
+        "value": "C",
+        "score": 1.0
+      },
+      {
+        "value": "Rust",
+        "score": 1.0
+      },
+      {
+        "value": "C++",
+        "score": 1.0
+      },
+      {
+        "value": "Ada",
+        "score": 0.9
+      },
+      {
+        "value": "Java",
+        "score": 0.9
+      },
+      {
+        "value": "Pascal",
+        "score": 0.9
+      },
+      {
+        "value": "Chapel",
+        "score": 0.8
+      },
+      {
+        "value": "Lisp",
+        "score": 0.8
+      },
+      {
+        "value": "Ocaml",
+        "score": 0.8
+      },
+      {
+        "value": "Fortran",
+        "score": 0.7
+      },
+      {
+        "value": "Swift",
+        "score": 0.7
+      },
+      {
+        "value": "Haskell",
+        "score": 0.7
+      },
+      {
+        "value": "C#",
+        "score": 0.6
+      },
+      {
+        "value": "Go",
+        "score": 0.6
+      },
+      {
+        "value": "Dart",
+        "score": 0.6
+      },
+      {
+        "value": "F#",
+        "score": 0.5
+      },
+      {
+        "value": "JavaScript",
+        "score": 0.5
+      },
+      {
+        "value": "Racket",
+        "score": 0.5
+      },
+      {
+        "value": "TypeScript",
+        "score": 0.4
+      },
+      {
+        "value": "Hack",
+        "score": 0.4
+      },
+      {
+        "value": "PHP",
+        "score": 0.4
+      },
+      {
+        "value": "Erlang",
+        "score": 0.3
+      },
+      {
+        "value": "Lua",
+        "score": 0.2
+      },
+      {
+        "value": "Jruby",
+        "score": 0.2
+      },
+      {
+        "value": "Ruby",
+        "score": 0.1
+      },
+      {
+        "value": "Python",
+        "score": 0.1
+      },
+      {
+        "value": "Perl",
+        "score": 0.1
+      }
+    ]
+  },
+  {
+    "text": "Will the code be compiled or interpreted?",
+    "answerType": "selector",
+    "category": "Software",
+    "explanation": "Interpreted programming languages are easier to write, but require more energy to run than using a compiled programming languages.",
+    "options": [
+      {
+        "value": "Fully compiled",
+        "score": 1
+      },
+      {
+        "value": "Balanced",
+        "score": 0.5
+      },
+      {
+        "value": "Fully interpreted",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "If a desktop or mobile app, is it native or web-based?",
+    "answerType": "selector",
+    "category": "Software",
+    "explanation": "Web-based applications are cross-platform and allow for the easy deployment across multiple operating systems, while native applications are typically highly dependent on OS. However a native application requires much less energy since it does not depend on a personal browser instance to run. Choosing a web-based framework could make sense for a private, low-user application which is used by a heterogeneous group of users.",
+    "options": [
+      {
+        "value": "Web-based",
+        "score": 0
+      },
+      {
+        "value": "Native",
+        "score": 1
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      }
+    ]
+  },
+  {
+    "text": "If a networked app, are requests cached on the receiver?",
+    "answerType": "selector",
+    "category": "Software",
+    "explanation": "Sending information over the web requires a lot of energy, so if it all possible non-single use data should be cached on disk.",
+    "options": [
+      {
+        "value": "Not cached",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Cached",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "Is the source proprietary, copyleft or permissive?",
+    "answerType": "selector",
+    "category": "Software",
+    "explanation": "Free software allows for the modification of the source code, use by the broader community and can serve a hedge for the company going bankrupt. Copyleft requires changes to be shared under the same license, while permissive does not. Typically having it be free software is a net-positive, but the choice on the type may depend per project.",
+    "options": [
+      {
+        "value": "Proprietary",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Copyleft",
+        "score": 1
+      },
+      {
+        "value": "Permissive",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "If a web-based app, does it lazy-load assets?",
+    "answerType": "selector",
+    "category": "Software",
+    "explanation": "Lazy loading allows a page to render and request and push content at a later time. It contributes to the efficiency of operations and decreases energy consumption at runtime.",
+    "options": [
+      {
+        "value": "No",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Yes",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "Are non-essential tasks done in the background?",
+    "answerType": "selector",
+    "category": "Software",
+    "explanation": "Performing tasks in the background allows for better utilization of the computer resources since it makes use of all cores, it also gives a better use experience.",
+    "options": [
+      {
+        "value": "No",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Yes",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "If not a mobile app, is it virtualized?",
+    "answerType": "selector",
+    "category": "Software",
+    "explanation": "Virtualization for better isolation between processes increasing security. It also allows for a tighter management of the resources used by the application, allowing for the closer packing of software packages and higher utilization of resources.",
+    "options": [
+      {
+        "value": "No",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Yes",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "If UI-based, is there a dark-mode?",
+    "answerType": "selector",
+    "category": "Software",
+    "explanation": "Dark mode consumes less energy than a light mode, especially on OLED devices where the pixels are actually physically turned off.",
+    "options": [
+      {
+        "value": "No",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Yes",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "Does the company have a style guide?",
+    "answerType": "boolean",
+    "category": "Software",
+    "explanation": "By following a style guide a project has a consistent coding style throughout the project which is a sign for better code health.",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Is static analysis applied on the code?",
+    "answerType": "boolean",
+    "category": "Software",
+    "explanation": "Static analysis tools scan the project for any faults, security issues or style issues. This makes sure that code health is maintained and that some bugs do not appear in the final product.",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Does the project have any certifications (ex. MISRA)?",
+    "answerType": "boolean",
+    "explanation": "Some companies and alliances provide certifications that indicate that the project has a certain quality standard. A classical example of this is MISRA for embedded devices used in automotive, aerospace and critical infrastructure.",
+    "category": "Software",
+    "options": [
+      {
+        "value": true,
+        "score": 1
+      },
+      {
+        "value": false,
+        "score": 0
+      }
+    ]
+  },
+  {
+    "text": "Is the software subject to security audits?",
+    "answerType": "selector",
+    "category": "Software",
+    "explanation": "All software has bugs, by frequently auditing the software for vulnerabilities problems may be found much earlier and catastrophic failure can be avoided. This relevant for large or mission critical programs.",
+    "options": [
+      {
+        "value": "No",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Yes",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "Are the number of bytes send measured?",
+    "answerType": "selector",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "standaloneQuestion": true,
+    "options": [
+      {
+        "value": "No",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Yes",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "Are the number of network requests measured?",
+    "answerType": "selector",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "standaloneQuestion": true,
+    "options": [
+      {
+        "value": "No",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Yes",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "Are the number of CPU cycles used by the software measured?",
+    "answerType": "selector",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "standaloneQuestion": true,
+    "options": [
+      {
+        "value": "No",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Yes",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "Is the number of hard drive accesses recorded?",
+    "answerType": "selector",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "standaloneQuestion": true,
+    "options": [
+      {
+        "value": "No",
+        "score": 0
+      },
+      {
+        "value": "Not applicable",
+        "score": -1
+      },
+      {
+        "value": "Yes",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "Is the energy consumption of the software measured?",
+    "answerType": "boolean",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "standaloneQuestion": true,
+    "options": [
+      {
+        "value": false,
+        "score": 0
+      },
+      {
+        "value": true,
+        "score": 1
+      }
+    ]
+  },
+  {
+    "text": "What are the number of bytes send?",
+    "answerType": "input",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "compareQuestion": true
+  },
+  {
+    "text": "What is the number of network requests made?",
+    "answerType": "input",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "compareQuestion": true
+  },
+  {
+    "text": "How many CPU cycles are being used by the project?",
+    "answerType": "input",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "compareQuestion": true
+  },
+  {
+    "text": "How many times is the hard drive being accessed?",
+    "answerType": "input",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "compareQuestion": true
+  },
+  {
+    "text": "How much is the energy usage of the program?",
+    "answerType": "input",
+    "explanation": "",
+    "category": "Measurable Metrics",
+    "compareQuestion": true
+  }
+]

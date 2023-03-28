@@ -8,6 +8,7 @@ export type Category = {
 
 export interface Question {
 	id: number;
+	explanation: string;
 	text: string;
 	answerType: "boolean" | "scale" | "boolean" | "selector" | "input" | "dropdown";
 	value: boolean | string | number | null;

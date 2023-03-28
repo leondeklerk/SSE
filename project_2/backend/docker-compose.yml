@@ -9,28 +9,15 @@ services:
       MONGO_INITDB_DATABASE: ${MONGODB_DATABASE_NAME}
     env_file:
       - ./.env
+    restart: "unless-stopped"
     volumes:
       - mongo:/data/db
     ports:
       - '6000:27017'
-  mongo-seed:
-    build:
-      context: .
-      dockerfile: ./mongo-seed/Dockerfile
-    depends_on:
-      - mongo
-    environment:
-      MONGO_HOST: mongo
-      MONGO_DB: ${MONGODB_DATABASE_NAME}
-      USERNAME: ${MONGODB_USERNAME}
-      PASSWORD: ${MONGODB_PASSWORD}
-    env_file:
-      - ./.env
-    volumes:
-      - ./mongo-seed:/mongo-seed
   redis:
     image: redis:latest
     container_name: redis
+    restart: "unless-stopped"
     ports:
       - '6379:6379'
     volumes:

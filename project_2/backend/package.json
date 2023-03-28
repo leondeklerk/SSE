@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/app.ts"
+    "start": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "seed": "node ./scripts/seed.js"
   },
   "dependencies": {
     "@typegoose/typegoose": "^9.8.0",
@@ -16,6 +17,7 @@
     "express": "^4.17.3",
     "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
+    "mongo-seeding": "^3.7.2",
     "mongoose": "^6.3.0",
     "redis": "^4.0.6",
     "ts-node-dev": "^1.1.8",

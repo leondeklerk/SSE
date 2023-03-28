@@ -41,10 +41,32 @@ export type QuestionResponse = {
 	};
 };
 
+export type Option = {
+	value: string | boolean;
+	score: number;
+};
+
 export type QuestionData = {
 	_id: string;
 	text: string;
-	answerType: "Options" | "Boolean" | "Dropdown" | "Scale";
+	answerType: "selector" | "boolean" | "dropdown" | "scale" | "input";
+	explanation: string;
 	category: string;
-	options: Record<string, number>[];
+	standaloneQuestion: boolean | undefined;
+	compareQuestion: boolean | undefined;
+	options: Option[];
+};
+
+export type CategoryResponse = {
+	data: {
+		categories: CategoryData[];
+	};
+	result: number;
+	status: string;
+};
+
+export type CategoryData = {
+	_id: string;
+	explanation: string;
+	name: string;
 };

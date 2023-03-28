@@ -5,22 +5,22 @@ import questionModel, { Question } from "../models/question.model";
 import { questionSchema } from "../schema/question.schema";
 
 export const getAllCategoriesHandler = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
-    try {
-        const categories = await categoriesModel.find();
-        res.status(200).json({
-            status: 'succes',
-            result: categories.length,
-            data: {
-                categories,
-            },
-        });
-    } catch (err: any) {
-        next(err);
-    }
+  try {
+    const categories = await categoriesModel.find();
+    res.status(200).json({
+      status: "success",
+      result: categories.length,
+      data: {
+        categories,
+      },
+    });
+  } catch (err: any) {
+    next(err);
+  }
 };
 
 // export const addQuestionHandler = async (
@@ -51,7 +51,6 @@ export const getAllCategoriesHandler = async (
 //         }
 //     }
 // }
-
 
 // export const createQuestion = async (input: Partial<Question>) => {
 //     const question = await questionModel.create(input);

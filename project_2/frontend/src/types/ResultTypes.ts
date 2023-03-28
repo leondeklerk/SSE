@@ -5,6 +5,7 @@ export type CategoryResult = {
 
 export type QuestionResult = {
 	question: string;
+	explanation: string;
 	answerText: string;
 	score: number;
 };

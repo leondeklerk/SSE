@@ -96,6 +96,14 @@ function buildData(results: ApiResponse<QuestionResponse>) {
 
 	const tempData: Record<string, Category> = {};
 	data.forEach((qData, index) => {
+		if (!props.inPage && qData.compareQuestion) {
+			return;
+		}
+
+		if (props.inPage && qData.standaloneQuestion) {
+			return;
+		}
+
 		if (!tempData[qData.category]) {
 			tempData[qData.category] = {
 				id: index,
@@ -106,13 +114,12 @@ function buildData(results: ApiResponse<QuestionResponse>) {
 
 		const category = tempData[qData.category];
 
-		const answerType = mapInputType(qData.answerType);
-
 		let question: Question = {
 			id: index,
 			value: null,
 			text: qData.text,
-			answerType: answerType,
+			answerType: qData.answerType,
+			explanation: qData.explanation,
 			options: null,
 			scores: {},
 		};
@@ -120,12 +127,13 @@ function buildData(results: ApiResponse<QuestionResponse>) {
 		let options: Option[] = [];
 		let scores: Record<string, number> = {};
 		for (let option of qData.options) {
-			const key = Object.keys(option)[0];
-			options.push({
-				value: key,
-				text: key,
-			});
-			scores[key] = option[key];
+			if (qData.answerType !== "boolean") {
+				options.push({
+					value: option.value,
+					text: option.value.toString(),
+				});
+			}
+			scores[option.value.toString()] = option.score;
 		}
 
 		question.scores = scores;
@@ -142,26 +150,6 @@ function buildData(results: ApiResponse<QuestionResponse>) {
 	}
 
 	categories.value = result;
-}
-
-// Map back-end to front-end types (should be refactored)
-function mapInputType(inType: string): "input" | "boolean" | "dropdown" | "selector" | "scale" {
-	let answerType: "input" | "boolean" | "dropdown" | "selector" | "scale" = "input";
-	switch (inType) {
-		case "Boolean":
-			answerType = "boolean";
-			break;
-		case "Dropdown":
-			answerType = "dropdown";
-			break;
-		case "Options":
-			answerType = "selector";
-			break;
-		case "Scale":
-			answerType = "scale";
-			break;
-	}
-	return answerType;
 }
 
 function submit() {
@@ -182,12 +170,22 @@ function buildResultData() {
 	categories.value.forEach((category) => {
 		let questions: QuestionResult[] = [];
 		category.questions.forEach((question) => {
+			const score = getScore(question);
+			if (score === -1) {
+				return;
+			}
+
 			questions.push({
 				question: question.text,
+				explanation: question.explanation,
 				answerText: getAnswerText(question),
 				score: getScore(question),
 			});
 		});
+
+		if (questions.length === 0) {
+			return;
+		}
 
 		results.push({ name: category.text, questions: questions });
 	});
