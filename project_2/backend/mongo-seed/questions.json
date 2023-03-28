@@ -1,6 +1,6 @@
 [
     {
-        "text": " Does the company implement accessibility features?",
+        "text": "Does the company implement accessibility features?",
         "answerType": "Boolean",
         "category": "Software Sustainability",
         "explanation": "",
@@ -62,10 +62,10 @@
         "explanation": "",
         "options": [
             {
-                "true": 0
+                "true": 1
             },
             {
-                "false": 1
+                "false": 0
             }
         ]
     },
@@ -252,7 +252,7 @@
         ]
     },
     {
-        "text": "If a networked app, does use a private, public or mixed cloud?",
+        "text": "If a networked app, does it use a private, public or mixed cloud?",
         "answerType": "Options",
         "category": "Software Sustainability",
         "explanation": "A private cloud is more secure and private, but is less sustainable than a public cloud. This choice is highly dependent on the organizational requirements.",
@@ -292,10 +292,10 @@
         ]
     },
     {
-        "text": "Does the software lazy-load assets?",
+        "text": "If a web-based app, does it lazy-load assets?",
         "answerType": "Boolean",
         "category": "Software Sustainability",
-        "explanation": "",
+        "explanation": "Lazy loading allows a page to render and request and push content at a later time. It contributes to the efficiency of operations and decreases energy consumption at runtime.",
         "options": [
             {
                 "true": 1
