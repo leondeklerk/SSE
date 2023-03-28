@@ -8,6 +8,9 @@ export class Question {
     answerType: string
 
     @prop()
+    explanation: string
+
+    @prop()
     category: string
 
     @prop()

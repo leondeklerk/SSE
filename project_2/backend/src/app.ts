@@ -8,6 +8,7 @@ import connectDB from './utils/connectDB';
 import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
 import questionRouter from './routes/question.route';
+import categoryRouter from './routes/category.route';
 
 const app = express();
 
@@ -34,6 +35,7 @@ if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/questions', questionRouter)
+app.use('/api/categories', categoryRouter)
 // Testing
 app.get(
   '/api/healthChecker',

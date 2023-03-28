@@ -33,6 +33,7 @@ export const addQuestionHandler = async (
             const question = await createQuestion({
                 answerType: req.body.answerType,
                 text: req.body.text,
+                explanation: req.body.explanation,
                 category: req.body.category,
                 options: req.body.options,
 

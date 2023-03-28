@@ -1,0 +1,13 @@
+{
+  "body": {
+    "content": "",
+    "file": false,
+    "fileSize": false
+  },
+  "headers": {
+    "authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDFjMWNmZTQ5ZmZlMDRmYTdhODhjYjEiLCJpYXQiOjE2Nzk1NzcxODEsImV4cCI6MTY3OTU3ODA4MX0.vqvJu4rlYW5L-HdunaHXhjm-H6arCGoqaZRDBfkcW0GECQE4Ejqpk6uo_t6knTYyZZxgJYS7MkqEasmAu05pog"
+  },
+  "method": "GET",
+  "title": "Get Categories",
+  "url": "http://localhost:8000/api/categories/"
+}
