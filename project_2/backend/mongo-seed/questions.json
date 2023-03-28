@@ -2,7 +2,7 @@
     {
         "text": "Does the company implement accessibility features?",
         "answerType": "Boolean",
-        "category": "Software Sustainability",
+        "category": "Social",
         "explanation": "",
         "options": [
             {
@@ -16,7 +16,7 @@
     {
         "text": "Does the company have sustainability guidelines?",
         "answerType": "Boolean",
-        "category": "Software Sustainability",
+        "category": "Social",
         "explanation": "",
         "options": [
             {
@@ -30,7 +30,7 @@
     {
         "text": "Is the company part of any sustainable alliance or group?",
         "answerType": "Boolean",
-        "category": "Software Sustainability",
+        "category": "Social",
         "explanation": "",
         "options": [
             {
@@ -44,7 +44,7 @@
     {
         "text": "Does the company have a privacy, diversity and sustainability officer in the C-Suite?",
         "answerType": "Boolean",
-        "category": "Software Sustainability",
+        "category": "Social",
         "explanation": "Embedding the principles of privacy, diversity and sustainability at a high-level at the com-pany is the best way to ensure that these are actually upheld. This metric is not relevant for startups or small companies.",
         "options": [
             {
@@ -72,7 +72,7 @@
     {
         "text": "Is the company a B-Corp?",
         "answerType": "Boolean",
-        "category": "Software Sustainability",
+        "category": "Social",
         "explanation": "B-Corps is a certification given to companies that uphold the principles of social and ecological sustainability.",
         "options": [
             {
@@ -86,7 +86,7 @@
     {
         "text": "Does the company take grid-load and energy mix into account?",
         "answerType": "Boolean",
-        "category": "Software Sustainability",
+        "category": "Social",
         "explanation": "",
         "options": [
             {
@@ -100,7 +100,7 @@
     {
         "text": "Does the company have a green strategy?",
         "answerType": "Boolean",
-        "category": "Software Sustainability",
+        "category": "Social",
         "explanation": "",
         "options": [
             {
@@ -385,7 +385,7 @@
         "text": "Which, if any, certifications (ex. MISRA) does the project have?",
         "answerType": "Input",
         "explanation": "Some companies and alliances provide certifications that indicate that the project has a certain quality standard. A classical example of this is MISRA for embedded devices used in automotive, aerospace and critical infrastructure.",
-        "category": "Software",
+        "category": "Software Sustainability",
         "options": [
             {
                 "": 0
