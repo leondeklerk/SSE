@@ -4,17 +4,22 @@
 			<h1 class="title">Questionnaire</h1>
 		</template>
 		<template #default>
-			<collapsable-container v-for="(category, index) of categories" :key="index">
+			<collapsable-container v-for="(category, index) of categories" :key="index" :collapse-initial="index !== 0">
 				<template #header>
 					{{ category.text }}
 				</template>
 				<template #default>
-					<template v-for="(question, qIndex) of category.questions" :key="qIndex">
-						<div class="columns is-vcentered is-centered has-text-centered-mobile">
-							<div class="column">
+					<table class="table is-striped is-fullwidth">
+						<thead class="is-two-fifths">
+							<th>Question</th>
+							<th class="has-text-centered">Answer</th>
+						</thead>
+						<tr v-for="(question, qIndex) of category.questions" :key="qIndex">
+							<!-- <div class="columns is-vcentered is-centered has-text-centered-mobile"> -->
+							<td>
 								{{ question.text }}
-							</div>
-							<div class="column is-two-fifths">
+							</td>
+							<td>
 								<likert-component
 									v-if="question.answerType === 'scale'"
 									v-model="(question as LikertQuestion).value"
@@ -32,9 +37,10 @@
 									:options="(question as DropdownQuestion).options"
 								/>
 								<input-component v-else v-model="(question as InputQuestion).value" />
-							</div>
-						</div>
-					</template>
+							</td>
+							<!-- </div> -->
+						</tr>
+					</table>
 				</template>
 			</collapsable-container>
 			<button-component :type="'primary'" class="is-pulled-right" v-if="inPage" @click="submit">Submit</button-component>
