@@ -1,6 +1,11 @@
 <template>
 	<component :is="inPageComp ? 'div' : PageComponent">
 		<template v-if="!inPageComp" #headerLeft>
+			<router-link to="/form">
+				<span class="icon has-text-black is-large">
+					<i class="fa-solid fa-lg fa-arrow-left"></i>
+				</span>
+			</router-link>
 			<h1 class="title">Results</h1>
 		</template>
 		<template #default>
