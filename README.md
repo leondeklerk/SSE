@@ -8,4 +8,4 @@ A small study on energy consumption differences between different container runt
 
 ## Project 2
 
-Study on a literary framework on green procurement requirements for software companies.
+Study on a literary framework on green procurement requirements for software companies and an example implementation of the proposed framework to be used in a procurement process.
