@@ -10,7 +10,7 @@ export interface Question {
 	id: number;
 	explanation: string;
 	text: string;
-	answerType: "boolean" | "scale" | "boolean" | "selector" | "input" | "dropdown";
+	answerType: "boolean" | "scale" | "selector" | "input" | "dropdown";
 	value: boolean | string | number | null;
 	options: Option[] | null;
 	scores: Record<string, number>;
