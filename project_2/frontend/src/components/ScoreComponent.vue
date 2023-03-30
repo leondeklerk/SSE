@@ -9,7 +9,7 @@
 
 		<div v-for="(cat, index) of categoryScores" :key="index" class="level">
 			<div>{{ cat.name }}</div>
-			<div class="pr-1">{{ cat.score }} / {{ cat.maxScore }}</div>
+			<div class="pr-1">{{ categoryScorePercentages[cat.name] }}</div>
 		</div>
 	</div>
 	<div class="columns pr-0 m-0 mt-4 mb-2 is-vcentered is-centered">
@@ -20,7 +20,7 @@
 	</div>
 	<div class="level">
 		<div class="">Total</div>
-		<div class="pr-1">{{ totalScore }} / {{ totalScoreMax }}</div>
+		<div class="pr-1">{{ totalPercentage }}%</div>
 	</div>
 	<ModalComponent ref="modal" type="info">
 		<template #header> <div class="title">Score clarification</div></template>
@@ -36,7 +36,7 @@ import { computed, ref, type Ref } from "vue";
 import ModalComponent from "./ModalComponent.vue";
 
 interface Props {
-	totalExplanation?: string;
+	totalExplanation?: string[];
 	categoryScores: CategoryResultScore[];
 }
 
@@ -44,13 +44,20 @@ const props = withDefaults(defineProps<Props>(), {});
 
 const modal: Ref<typeof ModalComponent | null> = ref(null);
 
-const totalScore = computed(() => {
-	return props.categoryScores.reduce((sum, current) => sum + current.score, 0);
+const totalPercentage = computed(() => {
+	let totalScore = props.categoryScores.reduce((sum, current) => sum + current.score, 0);
+	let totalScoreMax = props.categoryScores.reduce((sum, current) => sum + current.maxScore, 0);
+	return Math.floor((totalScore / totalScoreMax) * 100);
 });
 
-const totalScoreMax = computed(() => {
-	return props.categoryScores.reduce((sum, current) => sum + current.maxScore, 0);
+const categoryScorePercentages = computed(() => {
+	const result: Record<string, string> = {};
+	props.categoryScores.forEach((categoryScore) => {
+		result[categoryScore.name] = `${Math.floor((categoryScore.score / categoryScore.maxScore) * 100)}%`;
+	});
+	return result;
 });
+
 const explanation = computed(() => {
 	let ex = `
         <div class='block'>
@@ -58,23 +65,27 @@ const explanation = computed(() => {
             The result is composed from all questions that are either answered or unanswered, excluding the questions answered with 'not applicable'.
         </div>
         <div class='block'>
-            Each question is worth one point at most, answers are either worth full points (zero or one) or a fraction between 0 and 1.
+            Each question is worth one point at most. Answers are either worth full points (zero or one) or a fraction between 0 and 1.
             For each category a total number of points is displayed indicating the performance in regards to the specific aspects of that category.
-            The total score is an aggregation of the different categories and indicates the over-all performance.
+            The total score is an aggregation of the different categories and indicates the overall performance.
         </div>
         <div class='block'>
-            As all projects are different, these results should not be taken as a single source of truth
+            As all projects are different, these results should not be taken as a single source of truth.
             They are designed to assess various aspects, but should be put into context.
-            The results can be used as a comparable metric, as well as an guideline to improve over-all processes of a company and or project.
+            The results can be used as a comparable metric, as well as an guideline to improve the processes of a company and or project.
             
         </div>`;
 	props.categoryScores.forEach((categoryScore) => {
 		if (categoryScore.explanation) {
-			ex += `<div class='block'><b>${categoryScore.name} ${categoryScore.score}/${categoryScore.maxScore}</b><br/>${categoryScore.explanation}</div>`;
+			ex += `<div class='block'><b>${categoryScore.name} (${categoryScorePercentages.value[categoryScore.name]})</b></div>`;
+			categoryScore.explanation.forEach((expl) => (ex += `<div class='block'>${expl}</div>`));
 		}
 	});
 	if (props.totalExplanation) {
-		ex += `<div class='block'><b>Total ${totalScore.value}/${totalScoreMax.value}</b><br/>${props.totalExplanation}</div>`;
+		ex += `<div class='block'><b>Total (${totalPercentage.value}%)</b><br/></div>`;
+		props.totalExplanation.forEach((expl) => {
+			ex += `<div class='block'>${expl}</div>`;
+		});
 	}
 	return ex;
 });

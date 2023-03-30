@@ -1,14 +1,29 @@
 [
   {
     "name": "Social",
-    "explanation": "Social relates to the long-term sustainability of the company and its culture. It includes topics such as data-privacy, diversity and overall sustainability from a company perspective"
+    "explanation": "Social relates to the long-term sustainability of the company and its culture. It includes topics such as data-privacy, diversity and overall sustainability from a company perspective",
+    "scoreExplanation": [
+      "The social score is important to show the long-term sustainability of the company and its culture. It shows that the idea of sustainability is embedded in the company's way of working and its vision.",
+      "A <b>higher<b/> score indicates that a company is, at its core, more concerned with sustainability. This can also mean that the general concept of sustainability is more embedded in their workflow.",
+      "A <b>lower<b/>  score indicates a company that is not as concerned with long-term sustainability and is more focussed on the software itself and possibly short-term sustainability."
+    ]
   },
   {
     "name": "Software",
-    "explanation": "Software relates to the sustainability of the product/ application. It is not necessarily the case that one option is always more sustainable than others, but in the context of already made software requirements these can give insight to the sustainability of the product."
+    "explanation": "Software relates to the sustainability of the product/ application. It is not necessarily the case that one option is always more sustainable than others, but in the context of already made software requirements these can give insight to the sustainability of the product.",
+    "scoreExplanation": [
+      "Software sustainability is about the performance of the tooling and the design decisions made in the process. These results determine the direct impact the software has in terms of sustainability, though on its own it shows the sustainability of the software and not necessarily the sustainability in regards of the company",
+      "A <b>higher<b/>  score indicates that the software is written and designed with sustainability in mind. In the context of the requirements it is designed to have a minimal impact and run as efficient as possible. This is not only limited to the software itself but also the workflow associated with the software.",
+      "A <b>lower<b/> score indicates software that is not well written in regards to sustainability. Sustainability takes a less important role, and the company is more focussed on the functional aspect of the software. It can also be an indication of inefficient software and a workflow that is less open and sustainable."
+    ]
   },
   {
     "name": "Measurable Metrics",
-    "explanation": "These are possible standard metrics that can be used to do a relative comparison between solutions."
+    "explanation": "These are possible standard metrics that can be used to do a relative comparison between solutions based on project specifications and requirements.",
+    "scoreExplanation": [
+      "Measurable metrics can be used to show that a company is aware of the different aspects of sustainability and the impact of their software. In a project setting these metrics can be used to compare different companies, as only the relative differences within a context are important. In a separate setting they are mainly used to see if these metrics are considered in the workflow, indicating that a company is willing to provide these metrics.",
+      "A <b>higher<b/>  score indicates a company that is aware of the existence of these metrics. The fact that these metrics are taken into account indicates that the company is willing to think about these aspects of the software. This makes them more likely to also act on these metrics and improve their software.",
+      "A <b>lower<b/> score indicates that less thought is put into these aspects of the software. It indicates that a company is not willing or unable to provide metrics about their software. This could be due to a general disinterest or because they lack the means to do so."
+    ]
   }
 ]

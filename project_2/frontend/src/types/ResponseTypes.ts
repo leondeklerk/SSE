@@ -68,5 +68,6 @@ export type CategoryResponse = {
 export type CategoryData = {
 	_id: string;
 	explanation: string;
+	scoreExplanation: string[];
 	name: string;
 };

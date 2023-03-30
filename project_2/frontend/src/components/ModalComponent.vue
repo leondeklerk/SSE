@@ -2,7 +2,7 @@
 	<teleport to="body">
 		<div v-if="opened" class="modal is-active">
 			<div class="modal-background"></div>
-			<div class="modal-content box is-flex is-flex-direction-column">
+			<div class="modal-content box is-flex is-flex-direction-column is-wide">
 				<div class="is-flex-grow-0 is-flex-shrink-1 is-flex is-flex-direction-row">
 					<div class="is-flex-grow-1 is-flex-shrink-1">
 						<slot name="header"> </slot>

@@ -14,7 +14,7 @@
 					{{ category.name }}
 				</template>
 				<template #default>
-					<div class="container is-italic has-text-grey-dark">
+					<div class="is-italic has-text-grey-dark has-text-left">
 						<span class="icon has-text-info">
 							<i class="fas fa-info-circle"></i>
 						</span>
@@ -30,7 +30,7 @@
 						<tr v-for="(question, qIndex) of category.questions" :key="qIndex">
 							<td class="">
 								{{ question.question }}
-								<div class="container is-italic is-size-6 pt-1 has-text-grey-dark">
+								<div class="is-italic is-size-6 pt-1 has-text-grey-dark">
 									{{ question.explanation }}
 								</div>
 							</td>
@@ -92,8 +92,7 @@ const categoryScores: ComputedRef<CategoryResultScore[]> = computed(() => {
 	return categoryResults.value.map((categoryResult) => {
 		return {
 			name: categoryResult.name,
-			// Replace by fetch
-			explanation: categoryExplanations.value[categoryResult.name],
+			explanation: categoryScoreExplanations.value[categoryResult.name],
 			score: categoryResult.questions.reduce((sum, current) => sum + current.score, 0),
 			maxScore: categoryResult.questions.length,
 		};
@@ -117,11 +116,16 @@ get<CategoryResponse>("/categories/", false).then((res) => {
 	if (res.success) {
 		res.result?.data.categories.forEach((result) => {
 			categoryExplanations.value[result.name] = result.explanation;
+			categoryScoreExplanations.value[result.name] = result.scoreExplanation;
 		});
 	}
 });
 
 const categoryExplanations: Ref<Record<string, string>> = ref({});
+const categoryScoreExplanations: Ref<Record<string, string[]>> = ref({});
 
-const totalExplanation = ref("This is an explanation of the total");
+const totalExplanation = ref([
+	`The total score gives an indication of the overall performance. All categories have an equal weight, this means that even though scores can be the same, different companies do not always perform equally. A sustainable company scores well in all categories, this would mean a company that has a sustainable sound foundation, produces sustainable and efficient software that are represented in the published metrics.`,
+	`The categories are dependent on each other, where a good social result will result in a higher software result over multiple projects and in the long-term. The measurable metrics are a combination of the ethos of the company and the efficiency of the software`,
+]);
 </script>
